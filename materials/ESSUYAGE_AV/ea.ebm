@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="ESSUYAGE_AV">
+  <VARIABLES>
+    <CVariable val="dmd_commodo_user" />
+    <CVariable val="dmd_commodo" />
+    <CVariable val="etat_commodo" />
+    <CVariable val="type_vitesse" />
+    <CVariable val="vitesse_vehicule" />
+    <CVariable val="alimentation" />
+    <CVariable val="etat_moteur_ess_av" />
+    <CVariable val="cdp" />
+    <CVariable val="etat_cdp" />
+    <CVariable val="t_int_av" />
+    <CVariable val="depassement_temps_maintenance" />
+    <CVariable val="seuil_depasse_vit2" />
+    <CVariable val=" seuil_depasse_vit1" />
+    <CVariable val=" t_perte_acc_depasse" />
+    <CVariable val=" presence_CDP" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="dmd_commodo_user" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="5" />
+            <CVariable val="dmd_commodo_user" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="dmd_commodo" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="5" />
+            <CVariable val="dmd_commodo" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="etat_commodo" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="etat_commodo" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="type_vitesse" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="type_vitesse" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="vitesse_vehicule" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="100" />
+            <CVariable val="vitesse_vehicule" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="alimentation" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="3" />
+            <CVariable val="alimentation" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="etat_moteur_ess_av" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="11" />
+            <CVariable val="etat_moteur_ess_av" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="cdp" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="3" />
+            <CVariable val="cdp" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="etat_cdp" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="etat_cdp" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="t_int_av" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="6" />
+            <CVariable val="t_int_av" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="depassement_temps_maintenance" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="depassement_temps_maintenance" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val="seuil_depasse_vit2" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="seuil_depasse_vit2" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val=" seuil_depasse_vit1" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val=" seuil_depasse_vit1" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val=" t_perte_acc_depasse" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val=" t_perte_acc_depasse" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CInDomain type="0">
+            <CVariable val=" presence_CDP" />
+          </CInDomain>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val=" presence_CDP" />
+          </CGreater>
+        </CAnd>
+      </CAnd>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="depassement_temps_maintenance" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="alimentation" />
+          <CNumber val="2" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val=" t_perte_acc_depasse" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="alimentation" />
+          <CNumber val="2" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="alimentation" />
+            <CNumber val="2" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="vitesse_vehicule" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val=" seuil_depasse_vit1" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="seuil_depasse_vit2" />
+          <CNumber val="1" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="seuil_depasse_vit2" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val=" seuil_depasse_vit1" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <COr>
+            <CEquals>
+              <CVariable val="dmd_commodo" />
+              <CNumber val="0" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="dmd_commodo" />
+              <CNumber val="1" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="dmd_commodo" />
+              <CNumber val="4" />
+            </CEquals>
+          </COr>
+        </CNot>
+        <CAnd>
+          <CEquals>
+            <CVariable val=" seuil_depasse_vit1" />
+            <CNumber val="0" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="seuil_depasse_vit2" />
+            <CNumber val="0" />
+          </CEquals>
+        </CAnd>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="alimentation" />
+            <CNumber val="2" />
+          </CEquals>
+        </CNot>
+        <COr>
+          <CEquals>
+            <CVariable val="etat_moteur_ess_av" />
+            <CNumber val="2" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="etat_moteur_ess_av" />
+            <CNumber val="4" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="etat_moteur_ess_av" />
+            <CNumber val="8" />
+          </CEquals>
+        </COr>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CEquals>
+              <CVariable val="dmd_commodo" />
+              <CNumber val="2" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="seuil_depasse_vit2" />
+              <CNumber val="1" />
+            </CEquals>
+            <CEquals>
+              <CVariable val=" seuil_depasse_vit1" />
+              <CNumber val="1" />
+            </CEquals>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="5" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="t_int_av" />
+            <CNumber val="5" />
+          </CEquals>
+        </CNot>
+        <CAnd>
+          <CGreater>
+            <CNumber val="10" />
+            <CVariable val="vitesse_vehicule" />
+          </CGreater>
+          <CEquals>
+            <CVariable val="dmd_commodo" />
+            <CNumber val="2" />
+          </CEquals>
+        </CAnd>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CNumber val="10" />
+              <CVariable val="vitesse_vehicule" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="0" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CVariable val="vitesse_vehicule" />
+              <CNumber val="9" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="50" />
+              <CVariable val="vitesse_vehicule" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="0" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="1" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CVariable val="vitesse_vehicule" />
+              <CNumber val="49" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="90" />
+              <CVariable val="vitesse_vehicule" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="0" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="2" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CVariable val="vitesse_vehicule" />
+              <CNumber val="89" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="0" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="3" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CNumber val="5" />
+              <CVariable val="vitesse_vehicule" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="1" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CVariable val="vitesse_vehicule" />
+              <CNumber val="4" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="40" />
+              <CVariable val="vitesse_vehicule" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="1" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="1" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CVariable val="vitesse_vehicule" />
+              <CNumber val="39" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="80" />
+              <CVariable val="vitesse_vehicule" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="1" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="2" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CGreater>
+              <CVariable val="vitesse_vehicule" />
+              <CNumber val="79" />
+            </CGreater>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="1" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="5" />
+              </CEquals>
+            </CNot>
+            <CNot>
+              <CEquals>
+                <CVariable val="t_int_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="3" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CEquals>
+              <CVariable val="t_int_av" />
+              <CNumber val="4" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="alimentation" />
+              <CNumber val="0" />
+            </CEquals>
+          </CAnd>
+        </CNot>
+        <CAnd>
+          <COr>
+            <CEquals>
+              <CVariable val="etat_cdp" />
+              <CNumber val="0" />
+            </CEquals>
+            <CEquals>
+              <CVariable val=" presence_CDP" />
+              <CNumber val="0" />
+            </CEquals>
+          </COr>
+          <COr>
+            <CEquals>
+              <CVariable val="dmd_commodo" />
+              <CNumber val="4" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="etat_commodo" />
+              <CNumber val="0" />
+            </CEquals>
+          </COr>
+          <COr>
+            <CEquals>
+              <CVariable val="etat_moteur_ess_av" />
+              <CNumber val="5" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="etat_moteur_ess_av" />
+              <CNumber val="8" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="etat_moteur_ess_av" />
+              <CNumber val="9" />
+            </CEquals>
+          </COr>
+        </CAnd>
+      </COr>
+      <COr>
+        <CNot>
+          <CAnd>
+            <CEquals>
+              <CVariable val="t_int_av" />
+              <CNumber val="4" />
+            </CEquals>
+            <CNot>
+              <CEquals>
+                <CVariable val="alimentation" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+        </CNot>
+        <CAnd>
+          <COr>
+            <CEquals>
+              <CVariable val="etat_cdp" />
+              <CNumber val="0" />
+            </CEquals>
+            <CEquals>
+              <CVariable val=" presence_CDP" />
+              <CNumber val="0" />
+            </CEquals>
+          </COr>
+          <COr>
+            <CEquals>
+              <CVariable val="dmd_commodo" />
+              <CNumber val="4" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="etat_commodo" />
+              <CNumber val="0" />
+            </CEquals>
+          </COr>
+        </CAnd>
+      </COr>
+      <COr>
+        <CNot>
+          <COr>
+            <CAnd>
+              <CEquals>
+                <CVariable val="etat_cdp" />
+                <CNumber val="0" />
+              </CEquals>
+              <CEquals>
+                <CVariable val="dmd_commodo" />
+                <CNumber val="4" />
+              </CEquals>
+            </CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="etat_commodo" />
+                <CNumber val="0" />
+              </CEquals>
+              <COr>
+                <CEquals>
+                  <CVariable val="etat_cdp" />
+                  <CNumber val="0" />
+                </CEquals>
+                <CEquals>
+                  <CVariable val=" presence_CDP" />
+                  <CNumber val="0" />
+                </CEquals>
+              </COr>
+            </CAnd>
+          </COr>
+        </CNot>
+        <CEquals>
+          <CVariable val="t_int_av" />
+          <CNumber val="4" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="etat_commodo" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="seuil_depasse_vit2" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CMultipleAssignment>
+      <CAssignment>
+        <CVariable val="dmd_commodo_user" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="dmd_commodo" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="etat_commodo" />
+        <CNumber val="1" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="vitesse_vehicule" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="type_vitesse" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="alimentation" />
+        <CNumber val="2" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="etat_moteur_ess_av" />
+        <CNumber val="2" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="cdp" />
+        <CNumber val="2" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="etat_cdp" />
+        <CNumber val="1" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="t_int_av" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="depassement_temps_maintenance" />
+        <CNumber val="1" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val=" seuil_depasse_vit1" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="seuil_depasse_vit2" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val=" t_perte_acc_depasse" />
+        <CNumber val="1" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val=" presence_CDP" />
+        <CNumber val="1" />
+      </CAssignment>
+    </CMultipleAssignment>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="action_commodo_repos">
+      <CAnd>
+        <CEquals>
+          <CVariable val="etat_commodo" />
+          <CNumber val="1" />
+        </CEquals>
+        <CNot>
+          <CEquals>
+            <CVariable val="dmd_commodo_user" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="dmd_commodo_user" />
+          <CNumber val="0" />
+        </CAssignment>
+        <CIf>
+          <CEquals>
+            <CVariable val="alimentation" />
+            <CNumber val="2" />
+          </CEquals>
+          <CIf>
+            <CAnd>
+              <CEquals>
+                <CVariable val="depassement_temps_maintenance" />
+                <CNumber val="0" />
+              </CEquals>
+              <CEquals>
+                <CVariable val="etat_moteur_ess_av" />
+                <CNumber val="4" />
+              </CEquals>
+            </CAnd>
+            <CAssignment>
+              <CVariable val="etat_moteur_ess_av" />
+              <CNumber val="2" />
+            </CAssignment>
+            <CMultipleAssignment>
+              <CAssignment>
+                <CVariable val="etat_moteur_ess_av" />
+                <CNumber val="4" />
+              </CAssignment>
+              <CAssignment>
+                <CVariable val="dmd_commodo" />
+                <CNumber val="0" />
+              </CAssignment>
+            </CMultipleAssignment>
+          </CIf>
+          <CIf>
+            <CEquals>
+              <CVariable val="etat_moteur_ess_av" />
+              <CNumber val="4" />
+            </CEquals>
+            <CAssignment>
+              <CVariable val="etat_moteur_ess_av" />
+              <CNumber val="2" />
+            </CAssignment>
+            <CMultipleAssignment>
+              <CAssignment>
+                <CVariable val="dmd_commodo" />
+                <CNumber val="0" />
+              </CAssignment>
+              <CAssignment>
+                <CVariable val="etat_moteur_ess_av" />
+                <CNumber val="2" />
+              </CAssignment>
+            </CMultipleAssignment>
+          </CIf>
+        </CIf>
+        <CIf>
+          <COr>
+            <CEquals>
+              <CVariable val="t_int_av" />
+              <CNumber val="5" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="t_int_av" />
+              <CNumber val="4" />
+            </CEquals>
+          </COr>
+          <CIf>
+            <CEquals>
+              <CVariable val="type_vitesse" />
+              <CNumber val="0" />
+            </CEquals>
+            <CIf>
+              <CGreater>
+                <CNumber val="10" />
+                <CVariable val="vitesse_vehicule" />
+              </CGreater>
+              <CAssignment>
+                <CVariable val="t_int_av" />
+                <CNumber val="0" />
+              </CAssignment>
+              <CIf>
+                <CGreater>
+                  <CNumber val="50" />
+                  <CVariable val="vitesse_vehicule" />
+                </CGreater>
+                <CAssignment>
+                  <CVariable val="t_int_av" />
+                  <CNumber val="1" />
+                </CAssignment>
+                <CIf>
+                  <CGreater>
+                    <CNumber val="90" />
+                    <CVariable val="vitesse_vehicule" />
+                  </CGreater>
+                  <CAssignment>
+                    <CVariable val="t_int_av" />
+                    <CNumber val="2" />
+                  </CAssignment>
+                  <CAssignment>
+                    <CVariable val="t_int_av" />
+                    <CNumber val="3" />
+                  </CAssignment>
+                </CIf>
+              </CIf>
+            </CIf>
+            <CIf>
+              <CGreater>
+                <CNumber val="5" />
+                <CVariable val="vitesse_vehicule" />
+              </CGreater>
+              <CAssignment>
+                <CVariable val="t_int_av" />
+                <CNumber val="0" />
+              </CAssignment>
+              <CIf>
+                <CGreater>
+                  <CNumber val="40" />
+                  <CVariable val="vitesse_vehicule" />
+                </CGreater>
+                <CAssignment>
+                  <CVariable val="t_int_av" />
+                  <CNumber val="1" />
+                </CAssignment>
+                <CIf>
+                  <CGreater>
+                    <CNumber val="80" />
+                    <CVariable val="vitesse_vehicule" />
+                  </CGreater>
+                  <CAssignment>
+                    <CVariable val="t_int_av" />
+                    <CNumber val="2" />
+                  </CAssignment>
+                  <CAssignment>
+                    <CVariable val="t_int_av" />
+                    <CNumber val="3" />
+                  </CAssignment>
+                </CIf>
+              </CIf>
+            </CIf>
+          </CIf>
+          <CSkip />
+        </CIf>
+      </CParallel>
+    </CGuardedEvent>
+  </EVENTS>
+</MACHINE>

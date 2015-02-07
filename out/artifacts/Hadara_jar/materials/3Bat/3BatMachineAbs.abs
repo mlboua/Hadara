@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CPredicateTriModalsAbstraction model="3 Batries">
+  <STATES>
+    <CState name="s1">
+      <CAnd>
+        <CEquals>
+          <CVariable val="h" />
+          <CNumber val="1" />
+        </CEquals>
+        <COr>
+          <CEquals>
+            <CVariable val="Bat1" />
+            <CNumber val="1" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="Bat2" />
+            <CNumber val="1" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="Bat3" />
+            <CNumber val="1" />
+          </CEquals>
+        </COr>
+      </CAnd>
+    </CState>
+    <CState name="s4">
+      <CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="h" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CNot>
+          <COr>
+            <CEquals>
+              <CVariable val="Bat1" />
+              <CNumber val="1" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="Bat2" />
+              <CNumber val="1" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="Bat3" />
+              <CNumber val="1" />
+            </CEquals>
+          </COr>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s3">
+      <CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="h" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <COr>
+          <CEquals>
+            <CVariable val="Bat1" />
+            <CNumber val="1" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="Bat2" />
+            <CNumber val="1" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="Bat3" />
+            <CNumber val="1" />
+          </CEquals>
+        </COr>
+      </CAnd>
+    </CState>
+    <CState name="s2">
+      <CAnd>
+        <CEquals>
+          <CVariable val="h" />
+          <CNumber val="1" />
+        </CEquals>
+        <CNot>
+          <COr>
+            <CEquals>
+              <CVariable val="Bat1" />
+              <CNumber val="1" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="Bat2" />
+              <CNumber val="1" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="Bat3" />
+              <CNumber val="1" />
+            </CEquals>
+          </COr>
+        </CNot>
+      </CAnd>
+    </CState>
+  </STATES>
+  <TRANSITIONS>
+    <CTransition src="s4" dest="s3" name="Repair" type="MUSTPlus" />
+    <CTransition src="s2" dest="s1" name="Repair" type="MUSTPlus" />
+    <CTransition src="s3" dest="s4" name="Fail" type="MUSTMinus" />
+    <CTransition src="s1" dest="s1" name="Repair" type="MAY" />
+    <CTransition src="s4" dest="s2" name="Tic" type="MUSTPlusMinus" />
+    <CTransition src="s1" dest="s2" name="Fail" type="MUSTMinus" />
+    <CTransition src="s3" dest="s3" name="Repair" type="MAY" />
+    <CTransition src="s3" dest="s3" name="Fail" type="MAY" />
+    <CTransition src="s1" dest="s1" name="Fail" type="MAY" />
+    <CTransition src="s3" dest="s1" name="Tic" type="MUSTPlusMinus" />
+  </TRANSITIONS>
+</CPredicateTriModalsAbstraction>

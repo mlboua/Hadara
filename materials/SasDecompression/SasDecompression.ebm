@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="SasDecompression">
+  <VARIABLES>
+    <CVariable val="pression_sas" />
+    <CVariable val="pression_int" />
+    <CVariable val="porte_sas" />
+    <CVariable val="porte_int" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CInDomain type="0">
+        <CVariable val="pression_sas" />
+      </CInDomain>
+      <CInDomain type="0">
+        <CVariable val="pression_int" />
+      </CInDomain>
+      <CGreater>
+        <CNumber val="2" />
+        <CVariable val="porte_sas" />
+      </CGreater>
+      <CGreater>
+        <CNumber val="2" />
+        <CVariable val="porte_int" />
+      </CGreater>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="porte_int" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="porte_sas" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="porte_int" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="pression_sas" />
+          <CNumber val="10" />
+        </CEquals>
+      </COr>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="porte_int" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="pression_int" />
+          <CNumber val="10" />
+        </CEquals>
+      </COr>
+      <CEquals>
+        <CVariable val="pression_int" />
+        <CNumber val="10" />
+      </CEquals>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CParallel>
+      <CAssignment>
+        <CVariable val="pression_sas" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="pression_int" />
+        <CNumber val="10" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="porte_sas" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="porte_int" />
+        <CNumber val="0" />
+      </CAssignment>
+    </CParallel>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="modif_pression_sas">
+      <CEquals>
+        <CVariable val="porte_sas" />
+        <CNumber val="1" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="pression_sas" />
+        <CNumber val="0" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CGuardedEvent name="modif_pression_int">
+      <CEquals>
+        <CVariable val="porte_int" />
+        <CNumber val="1" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="pression_int" />
+        <CVariable val="pression_sas" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CGuardedEvent name="augmentation_pression_sas">
+      <CAnd>
+        <CEquals>
+          <CVariable val="porte_int" />
+          <CNumber val="0" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="porte_sas" />
+          <CNumber val="0" />
+        </CEquals>
+        <CGreater>
+          <CNumber val="10" />
+          <CVariable val="pression_sas" />
+        </CGreater>
+      </CAnd>
+      <CAssignment>
+        <CVariable val="pression_sas" />
+        <CPlus>
+          <CVariable val="pression_sas" />
+          <CNumber val="1" />
+        </CPlus>
+      </CAssignment>
+    </CGuardedEvent>
+    <CGuardedEvent name="ouverture_sas">
+      <CEquals>
+        <CVariable val="porte_int" />
+        <CNumber val="0" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="porte_sas" />
+        <CNumber val="1" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CNonGuardedEvent name="fermeture_sas">
+      <CAssignment>
+        <CVariable val="porte_sas" />
+        <CNumber val="0" />
+      </CAssignment>
+    </CNonGuardedEvent>
+    <CGuardedEvent name="ouverture_int">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pression_sas" />
+          <CVariable val="pression_int" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="porte_sas" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+      <CAssignment>
+        <CVariable val="porte_int" />
+        <CNumber val="1" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CNonGuardedEvent name="fermeture_int">
+      <CAssignment>
+        <CVariable val="porte_int" />
+        <CNumber val="0" />
+      </CAssignment>
+    </CNonGuardedEvent>
+  </EVENTS>
+</MACHINE>

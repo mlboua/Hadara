@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="Small Illustrative Model">
+  <VARIABLES>
+    <CVariable val="pc" />
+    <CVariable val="x" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CInDomain type="0">
+        <CVariable val="pc" />
+      </CInDomain>
+      <CGreater>
+        <CNumber val="4" />
+        <CVariable val="pc" />
+      </CGreater>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CAny>
+      <VariablesList />
+      <CEquals>
+        <CVariable val="z" />
+        <CVariable val="z" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="0" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CVariable val="z" />
+        </CAssignment>
+      </CParallel>
+    </CAny>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="e1">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="0" />
+        </CEquals>
+        <COr>
+          <CGreater>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CGreater>
+          <CEquals>
+            <CVariable val="x" />
+            <CNumber val="2" />
+          </CEquals>
+        </COr>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CPlus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CPlus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e2">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="0" />
+        </CEquals>
+        <COr>
+          <CGreater>
+            <CVariable val="x" />
+            <CNumber val="3" />
+          </CGreater>
+          <CEquals>
+            <CVariable val="x" />
+            <CNumber val="3" />
+          </CEquals>
+        </COr>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CMinus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CMinus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e3">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CEquals>
+        <CGreater>
+          <CVariable val="x" />
+          <CNumber val="3" />
+        </CGreater>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="2" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CPlus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CPlus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e4">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CEquals>
+        <COr>
+          <CGreater>
+            <CVariable val="x" />
+            <CNumber val="3" />
+          </CGreater>
+          <CEquals>
+            <CVariable val="x" />
+            <CNumber val="3" />
+          </CEquals>
+        </COr>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="2" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CMinus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CMinus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e5">
+      <CEquals>
+        <CVariable val="pc" />
+        <CNumber val="2" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="pc" />
+        <CNumber val="2" />
+      </CAssignment>
+    </CGuardedEvent>
+  </EVENTS>
+</MACHINE>

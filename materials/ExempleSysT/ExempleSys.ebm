@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="ExempleSys">
+  <VARIABLES>
+    <CVariable val="x" />
+    <CVariable val="y" />
+	<CVariable val="z" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CInDomain type="0">
+        <CVariable val="x" />
+      </CInDomain>
+      <CInDomain type="0">
+        <CVariable val="y" />
+      </CInDomain>
+	  <CInDomain type="0">
+        <CVariable val="z" />
+      </CInDomain>
+	  <CGreater>
+        <CNumber val="2" />
+        <CVariable val="z" />
+      </CGreater>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CParallel>
+        <CAssignment>
+          <CVariable val="x" />
+          <CNumber val="0" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="y" />
+          <CNumber val="0" />
+        </CAssignment>
+		<CAssignment>
+          <CVariable val="z" />
+          <CNumber val="0" />
+        </CAssignment>
+      </CParallel>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="A">
+	<CAnd>
+        <CEquals>
+          <CVariable val="z" />
+          <CNumber val="1" />
+        </CEquals>
+        <CGreater>
+			<CVariable val="x" />
+			<CVariable val="y" />
+		 </CGreater>
+      </CAnd>  
+      <CAny>
+        <VariablesList>
+          <CVariable val="local_x" />
+          <CVariable val="local_y" />
+        </VariablesList>
+		  <CAnd>
+        <CInDomain type="0">
+        <CVariable val="local_y" />
+      </CInDomain>
+	  <CInDomain type="0">
+        <CVariable val="local_x" />
+      </CInDomain>
+		<COr>
+          <CGreater>
+            <CVariable val="local_y" />
+            <CVariable val="local_x" />
+          </CGreater>
+          <CEquals>
+            <CVariable val="local_y" />
+            <CVariable val="local_x" />
+          </CEquals>
+        </COr>
+		  </CAnd>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="x" />
+            <CVariable val="local_x" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="y" />
+            <CVariable val="local_y" />
+          </CAssignment>
+        </CParallel>
+      </CAny>
+    </CGuardedEvent>
+    <CGuardedEvent name="B">
+     <CAnd>
+        <CEquals>
+          <CVariable val="z" />
+          <CNumber val="1" />
+        </CEquals>
+	 <COr>
+        <CGreater>
+          <CVariable val="y" />
+          <CVariable val="x" />
+        </CGreater>
+        <CEquals>
+          <CVariable val="y" />
+          <CVariable val="x" />
+        </CEquals>
+      </COr>
+	  </CAnd>  
+      <CAssignment>
+        <CVariable val="x" />
+        <CPlus>
+          <CVariable val="y" />
+          <CNumber val="1" />
+        </CPlus>
+      </CAssignment>
+    </CGuardedEvent>
+    <CGuardedEvent name="C">
+      <CAnd>
+		<CEquals>
+          <CVariable val="z" />
+          <CNumber val="1" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="x" />
+          <CNumber val="7" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="y" />
+          <CNumber val="11" />
+        </CEquals>
+      </CAnd>
+      <CAssignment>
+        <CVariable val="x" />
+        <CNumber val="17" />
+      </CAssignment>
+    </CGuardedEvent>
+	<CGuardedEvent name="D">
+	<CAnd>
+        <CEquals>
+          <CVariable val="z" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>  
+      <CAny>
+        <VariablesList>
+          <CVariable val="local_x" />
+          <CVariable val="local_y" />
+        </VariablesList>
+		 <CAnd>
+        <CInDomain type="0">
+        <CVariable val="local_y" />
+      </CInDomain>
+	  <CInDomain type="0">
+        <CVariable val="local_x" />
+      </CInDomain>
+          <CGreater>
+            <CVariable val="local_x" />
+            <CVariable val="local_y" />
+          </CGreater>
+		  </CAnd>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="x" />
+            <CVariable val="local_x" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="y" />
+			<CPlus>
+			   <CVariable val="local_y" />
+			  <CNumber val="5" />
+			</CPlus>           
+          </CAssignment>
+		  <CAssignment>
+          <CVariable val="z" />
+          <CNumber val="1" />
+        </CAssignment>
+        </CParallel>
+      </CAny>
+    </CGuardedEvent>
+	<CGuardedEvent name="E">
+	<CAnd>
+        <CEquals>
+          <CVariable val="z" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>  
+      <CAny>
+        <VariablesList>
+          <CVariable val="local_x" />
+          <CVariable val="local_y" />
+        </VariablesList>
+		 <CAnd>
+        <CInDomain type="0">
+        <CVariable val="local_y" />
+      </CInDomain>
+	  <CInDomain type="0">
+        <CVariable val="local_x" />
+      </CInDomain>
+          <CGreater>
+            <CVariable val="local_x" />
+            <CVariable val="local_y" />
+          </CGreater>
+		  <COr>
+        <CGreater>
+		  <CNumber val="5" />
+          <CVariable val="local_y" />
+        </CGreater>
+        <CEquals>
+          <CVariable val="local_y" />
+          <CNumber val="5" />
+        </CEquals>
+      </COr>
+		  </CAnd>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="x" />
+            <CVariable val="local_x" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="y" />
+			<CVariable val="local_y" />        
+          </CAssignment>
+		  <CAssignment>
+          <CVariable val="z" />
+          <CNumber val="1" />
+        </CAssignment>
+        </CParallel>
+      </CAny>
+    </CGuardedEvent>
+  </EVENTS>
+</MACHINE>

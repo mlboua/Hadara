@@ -1,0 +1,1342 @@
+MACHINE
+	ESSUYAGE_AV
+
+CONSTANTS
+	
+	VIT1,
+	VIT2,
+	MAX_VITESSE
+
+SETS
+	S_DMD_COMMODO_USER = {repos, interm, pv, gv, auto}; 
+    	/* Demande de commande d'action utilisateur 
+	repos : commodo en position repos
+	interm : commodo en position d'intermittence
+	pv : commodo en position petite vitesse
+	gv : commodo en position grande vitesse
+	auto : commodo en position automatique	*/
+	S_DMD_COMMODO = {d_repos, d_interm, d_pv, d_gv, d_auto}; 
+	/* demande d'action du commodo effective */
+	ETAT_COMMODO = {defaillant, fonctionnel}; /* etat de la commande*/
+	TYPE_VITESSE = {ascendant, descendant}; /* etat de la variation de vitesse du vehicule */
+	ALIMENTATION = {accessoire, demarreur, aucune};
+	/* etat de l'alimemtation (position de la clef) */
+	ETAT_MOTEUR_ESS_AV = {mgv, mpv, arretFixeAv, suspendu, arretMaintenance,mInter,pv1cycle, 
+		gv3cycles, protectionMoteur, pv3cyclesLavage, gv3cyclesLavage};
+	/* etats possibles du moteur de l'essuie-glace avant
+	mgv : grande vitesse permanente
+	mpv : petite vitesse permanente
+	arretFixeAv : moteur arrete avec les balais dans la zone d'arret fixe
+	arretMaintenance : moteur arrete avec les balais en position maintenance
+	mInter : moteur en mode intermittent
+	pv1cycle : balayage d'un cycle en petite vitesse
+	gv3cycles : balayage d'au moins trois cycles en grande vitesse, utilisé lors d'une demande
+		de grande grande vitesse par le capteur de pluie
+	pv3cyclesLavage : balayage de 3 cycles en petite vitesse, utilisé lors du lavage
+	gv3cyclesLavage : balayage de 3 cycles en grande vitesse, utilisé lors du lavage
+	protectionMoteur : moteur en etat de protection moteur	*/
+	CDP = {pvCDP, gvCDP, arretCDP};
+	ETAT_CDP = {c_defaillant,c_fonctionnel};
+	/* Capteur de pluie
+	pvCDP : detection de pluie necessitant une demande de balayage petite vitesse
+	pgCDP : detection de pluie necessitant une demande de balayage grande vitesse
+	arretCDP : aucune detection de pluie 	*/
+	BOOLEAN = {false, true};
+	T_INT_AV = {T_INT_AV_TRES_LENTE, T_INT_AV_LENTE, T_INT_AV_MOYENNE, T_INT_AV_RAPIDE, 
+		T_INT_FIXE, T_REDUC_PV_INT}
+	/* delais de temporisation de l'intermittence */
+	
+DEFINITIONS
+
+	VITESSE == 0..MAX_VITESSE	
+	
+PROPERTIES
+
+	VIT1 = 5		&
+	VIT2 = 10		&
+	MAX_VITESSE = 100	
+	
+VARIABLES
+	dmd_commodo_user,
+	dmd_commodo,
+	etat_commodo,
+	type_vitesse,
+	vitesse_vehicule,
+	alimentation,
+	etat_moteur_ess_av,
+	cdp,
+	etat_cdp,
+	t_int_av,
+	depassement_temps_maintenance,
+	seuil_depasse_vit2,
+	seuil_depasse_vit1,
+	t_perte_acc_depasse,
+	presence_CDP
+
+INVARIANT
+	/* Typage des variables : */
+	dmd_commodo_user : S_DMD_COMMODO_USER		&
+	dmd_commodo : S_DMD_COMMODO			&
+	etat_commodo : ETAT_COMMODO			&
+	type_vitesse : TYPE_VITESSE			&
+	vitesse_vehicule : VITESSE			&
+	alimentation : ALIMENTATION			&
+	etat_moteur_ess_av : ETAT_MOTEUR_ESS_AV		&
+	cdp : CDP					&
+	etat_cdp : ETAT_CDP                             &
+	t_int_av : T_INT_AV				&
+	depassement_temps_maintenance : BOOLEAN		&
+	seuil_depasse_vit2 : BOOLEAN			&
+	seuil_depasse_vit1 : BOOLEAN                    &
+	t_perte_acc_depasse : BOOLEAN			&
+	presence_CDP : BOOLEAN                          &
+	(depassement_temps_maintenance = true => alimentation = aucune)	&
+	/* le temps de maintenance depasse implique qu'il n'y ait pas d'alimentation */
+	(t_perte_acc_depasse = true => alimentation = aucune)	&
+	/*  Si t_perte_acc est depasse alors il n'y a pas d'alimentation */
+	(alimentation = aucune => vitesse_vehicule = 0)	&
+	/* Si l'alimentation est aucune alors la vitesse du vehicule doit etre nulle */
+	(seuil_depasse_vit1 = true => seuil_depasse_vit2 = true) &
+	/* Si le seuil vit1 est dépassé alors le seuil de vit2 est dépassé */
+        (seuil_depasse_vit2 = false => seuil_depasse_vit1 = false) &
+	/* Si le seuil vit2 n'est pas depasse alors le seuil vit1 ne l'est pas non plus */
+	((dmd_commodo = d_repos or dmd_commodo = d_interm or dmd_commodo = d_auto) => 
+		(seuil_depasse_vit1 = false & seuil_depasse_vit2 = false)) &
+	(alimentation = aucune => etat_moteur_ess_av = arretFixeAv or etat_moteur_ess_av = 
+		arretMaintenance or etat_moteur_ess_av = protectionMoteur) &
+	/* si une demande a été faite de repos, le moteur est soit en arretfixeav 
+		soit en maintenance */
+	(dmd_commodo = d_pv & seuil_depasse_vit2 = true & seuil_depasse_vit1 = true => 
+		t_int_av = T_REDUC_PV_INT) &
+	/* Dans le cas où une demande petite vitesse a été demandée, que le seuil VIT2 a été 
+		dépasse et que la vitesse est inférieure soit à VIT1 soit à VIT2 alors 
+		la temportisation d'intertemittence est à T_REDUC_PV_INT */
+	(t_int_av = T_REDUC_PV_INT => (vitesse_vehicule <= VIT2 & dmd_commodo = d_pv)) &
+	/* si l'intermittence est en réduction de petite vitesse à intermittence, alors 
+		la vitesse du véhicule est inférieur à VIT2 et la demande du commodo est
+		à petite vitesse */
+	((vitesse_vehicule < 10 & type_vitesse = ascendant & t_int_av /= T_REDUC_PV_INT &
+		t_int_av /= T_INT_FIXE) => t_int_av = T_INT_AV_TRES_LENTE) &
+	((vitesse_vehicule >= 10 & vitesse_vehicule < 50 & type_vitesse = ascendant & 
+		t_int_av /= T_REDUC_PV_INT & t_int_av /= T_INT_FIXE) 
+		=> t_int_av = T_INT_AV_LENTE) &
+	((vitesse_vehicule >= 50 & vitesse_vehicule < 90 & type_vitesse = ascendant & 
+		t_int_av /= T_REDUC_PV_INT & t_int_av /= T_INT_FIXE) 
+		=> t_int_av = T_INT_AV_MOYENNE) &
+	((vitesse_vehicule >= 90 & type_vitesse = ascendant & t_int_av /= T_REDUC_PV_INT &
+		t_int_av /= T_INT_FIXE) => t_int_av = T_INT_AV_RAPIDE) &
+	/* temporisation de l'intermittence en fonction de la vitesse du véhicule en 
+		vitesse ascendante */
+	((vitesse_vehicule < 5 & type_vitesse = descendant & t_int_av /= T_REDUC_PV_INT & 
+		t_int_av /= T_INT_FIXE) => t_int_av = T_INT_AV_TRES_LENTE) &
+	((vitesse_vehicule >= 5 & vitesse_vehicule < 40 & type_vitesse = descendant & 
+		t_int_av /= T_REDUC_PV_INT & t_int_av /= T_INT_FIXE) 
+		=> t_int_av = T_INT_AV_LENTE) &
+	((vitesse_vehicule >= 40 & vitesse_vehicule < 80 & type_vitesse = descendant & 
+		t_int_av /= T_REDUC_PV_INT & t_int_av /= T_INT_FIXE) 
+		=> t_int_av = T_INT_AV_MOYENNE) &
+	((vitesse_vehicule >= 80 & type_vitesse = descendant & t_int_av /= T_REDUC_PV_INT &
+		t_int_av /= T_INT_FIXE) => t_int_av = T_INT_AV_RAPIDE) &
+	/* lorsque la temporisation est fixe, alors le moteur est en intermittence et soit 
+		le capteur de pluie est défaillant, soit il n'est pas présent sur le véhicule */
+	((t_int_av = T_INT_FIXE & alimentation = accessoire) => ((etat_cdp = c_defaillant or
+		presence_CDP = false) & (dmd_commodo = d_auto or etat_commodo = defaillant) &
+		(etat_moteur_ess_av = mInter or etat_moteur_ess_av = protectionMoteur or 
+		etat_moteur_ess_av = pv3cyclesLavage))) &
+	((t_int_av = T_INT_FIXE & alimentation /= accessoire) => (etat_cdp = c_defaillant or
+		 presence_CDP = false) & (dmd_commodo = d_auto or etat_commodo = defaillant)) &
+	/*lorque le capteur de pluie est défaillant et qu'il y a une demande d'automatique 
+		ou que le commodo est défaillant et que le capteur de pluie n'est pas present
+		sur le véhicule, ou que le commodo est défaillant et que le capteur de pluie 
+		est défaillant alors le moteur est en intermittence fixe */
+	(((etat_cdp = c_defaillant & dmd_commodo = d_auto) or (etat_commodo = defaillant & 
+		(etat_cdp = c_defaillant or presence_CDP = false))) => t_int_av = T_INT_FIXE)  &
+	((etat_commodo = defaillant) => (seuil_depasse_vit2 = false)) &
+	/* Si on est en accessoire et en mode maintenance, alors la demande est mise à repos */
+	((alimentation = accessoire & etat_moteur_ess_av = arretMaintenance) => dmd_commodo = d_repos)
+	
+INITIALISATION
+	dmd_commodo_user := repos 				||
+	/* la demande commodo utilisateur est mis au repos */
+	dmd_commodo := d_repos					||
+	/* la demande intermediaire de commande est mise au repos */
+	etat_commodo := fonctionnel				||
+	vitesse_vehicule := 0					||
+	/* A l'initialisation le vehicule est a l'arret */
+	type_vitesse := ascendant				||
+	/* la variation de vitesse est mise a ascendant car la vitesse du vehicule est 0 */
+	alimentation := aucune					||
+	etat_moteur_ess_av := arretFixeAv			||
+	/* le moteur d'essuie-glace est mis a arret fixe*/
+	cdp := arretCDP						||
+	etat_cdp := c_fonctionnel                               ||
+	t_int_av := T_INT_AV_TRES_LENTE				||
+	/* la temporisation d'intermittence est mise a TRES_LENTE */ 
+	depassement_temps_maintenance := true			||
+	/* permet de savoir si on a dépassé le temps limite de possibilité de mise en route
+		de la maintenance */
+	seuil_depasse_vit1 := false /* permet de savoir si VIT1 a été dépasse lorsqu'on est
+		en pv ou gv */ ||
+	seuil_depasse_vit2 := false ||	/*permet de savoir si VIT2 a été dépassé lorqu'on 
+		est en pv ou gv */	
+	t_perte_acc_depasse := true ||
+	/* permet de savoir si on a dépassé le temps limite de sauvegarde de la demande 
+		précédant la perte d'accesoire*/
+	presence_CDP := true /* presence du capteur de pluie */ 
+
+OPERATIONS
+
+action_commodo_repos =
+	PRE
+		etat_commodo = fonctionnel	&
+		/* le commodo doit etre fonctionnel*/ 
+		dmd_commodo_user /= repos
+		/* la demande de commande utilisateur ne doit pas etre au repos */
+	THEN
+		dmd_commodo_user := repos	||
+		/* la demande de commande utilisateur est mise sur repos*/
+		IF (alimentation = aucune) 
+		THEN
+			IF depassement_temps_maintenance = false
+			THEN
+				/* maintenance */
+				IF(etat_moteur_ess_av = arretMaintenance)
+				THEN
+					/* on remet les essuies-vitres en position arret-fixe */
+					etat_moteur_ess_av := arretFixeAv
+				ELSE
+					/* on met les essuies-vitres en position maintenance */
+					etat_moteur_ess_av := arretMaintenance ||
+					dmd_commodo := d_repos
+				END
+			END
+		ELSE
+			IF etat_moteur_ess_av = arretMaintenance
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				dmd_commodo := d_repos		||
+				etat_moteur_ess_av := arretFixeAv
+			END
+		END ||
+		IF(t_int_av=T_REDUC_PV_INT or t_int_av = T_INT_FIXE)
+		THEN
+			IF(type_vitesse = ascendant)
+			THEN
+				IF (vitesse_vehicule < 10)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					IF (vitesse_vehicule < 50)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+						IF (vitesse_vehicule < 90)
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END 
+					END 
+				END
+			ELSE
+				IF (vitesse_vehicule < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+				IF (vitesse_vehicule < 40)
+				THEN
+					t_int_av := T_INT_AV_LENTE
+				ELSE
+				IF (vitesse_vehicule < 80)
+				THEN
+					t_int_av := T_INT_AV_MOYENNE
+				ELSE
+					t_int_av := T_INT_AV_RAPIDE
+				END END END
+			END
+		END
+	END;
+
+action_commodo_pv =
+	PRE
+		etat_commodo = fonctionnel		&
+		/* le commodo doit etre fonctionnel*/ 
+		dmd_commodo_user /= pv
+		/* la demande de commande utilisateur ne doit pas etre sur petite vitesse*/
+	THEN
+		IF (alimentation = aucune)
+		THEN
+			IF depassement_temps_maintenance = false
+			THEN
+				/* maintenance */
+				IF(etat_moteur_ess_av = arretMaintenance)
+				THEN
+					/*on remet les essuies-vitres en position arret-fixe */
+					etat_moteur_ess_av := arretFixeAv
+				ELSE
+					/* on met les essuies-vitres en position maintenance */
+					etat_moteur_ess_av := arretMaintenance ||
+					dmd_commodo := d_repos
+				END
+			END
+		ELSE
+			IF etat_moteur_ess_av = arretMaintenance
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				dmd_commodo := d_pv			||
+				etat_moteur_ess_av := mpv ||
+				seuil_depasse_vit1 := false ||
+				IF(vitesse_vehicule > VIT2)
+				/* gestion du dépassement des seuils */
+				THEN
+					seuil_depasse_vit2 := true
+				ELSE
+					seuil_depasse_vit2 := false
+				END
+			END
+		END ||
+		dmd_commodo_user := pv
+		/* la demande de commande utilisateur est mise sur petite vitesse */ ||
+		IF(t_int_av=T_REDUC_PV_INT  or t_int_av = T_INT_FIXE)
+		THEN
+			IF(type_vitesse = ascendant)
+			THEN
+				IF (vitesse_vehicule < 10)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					IF (vitesse_vehicule < 50)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+						IF (vitesse_vehicule < 90)
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END 
+					END 
+				END
+			ELSE
+				IF (vitesse_vehicule < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+				IF (vitesse_vehicule < 40)
+				THEN
+					t_int_av := T_INT_AV_LENTE
+				ELSE
+				IF (vitesse_vehicule < 80)
+				THEN
+					t_int_av := T_INT_AV_MOYENNE
+				ELSE
+					t_int_av := T_INT_AV_RAPIDE
+				END END END
+			END
+		END
+	END;
+	
+action_commodo_gv =
+	PRE
+		etat_commodo = fonctionnel 	&
+		/* le commodo doit etre fonctionnel*/ 
+		dmd_commodo_user /= gv
+		/* la demande de commande utilisateur ne doit pas etre sur grande vitesse*/
+	THEN
+		IF (alimentation = aucune)
+		/* maintenance */
+		THEN
+			IF depassement_temps_maintenance = false
+			THEN
+				IF(etat_moteur_ess_av = arretMaintenance)
+				THEN
+					/*on remet les essuies-vitres en position arret-fixe */
+					etat_moteur_ess_av := arretFixeAv
+				ELSE
+					/* on met les essuies-vitres en position maintenance */
+					etat_moteur_ess_av := arretMaintenance ||
+					dmd_commodo := d_repos
+				END
+			END
+		ELSE
+			IF etat_moteur_ess_av = arretMaintenance
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				etat_moteur_ess_av := mgv		||
+				dmd_commodo := d_gv			||
+				seuil_depasse_vit1 := false ||
+				IF(vitesse_vehicule > VIT2)
+				/* gestion du dépassement des seuils */
+				THEN
+					seuil_depasse_vit2 := true
+				ELSE
+					seuil_depasse_vit2 := false
+				END
+			END
+		END ||
+		dmd_commodo_user := gv
+		||
+		IF(t_int_av=T_REDUC_PV_INT  or t_int_av = T_INT_FIXE)
+		THEN
+			IF(type_vitesse = ascendant)
+			THEN
+				IF (vitesse_vehicule < 10)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					IF (vitesse_vehicule < 50)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+						IF (vitesse_vehicule < 90)
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END 
+					END 
+				END
+			ELSE
+				IF (vitesse_vehicule < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+				IF (vitesse_vehicule < 40)
+				THEN
+					t_int_av := T_INT_AV_LENTE
+				ELSE
+				IF (vitesse_vehicule < 80)
+				THEN
+					t_int_av := T_INT_AV_MOYENNE
+				ELSE
+					t_int_av := T_INT_AV_RAPIDE
+				END END END
+			END
+		END
+	END;
+	
+action_commodo_interm =
+	PRE
+		etat_commodo = fonctionnel &
+		/* le commodo doit etre fonctionnel*/ 
+		dmd_commodo_user /= interm 
+	THEN
+		/* la demande de commande utilisateur est mise sur intermittence*/
+		IF (alimentation = aucune)
+		THEN
+			IF depassement_temps_maintenance = false
+			THEN
+				/* maintenance */
+				IF(etat_moteur_ess_av = arretMaintenance)
+				THEN
+					/*on remet les essuies-vitres en position arret-fixe */
+					etat_moteur_ess_av := arretFixeAv
+				ELSE
+					/* on met les essuies-vitres en position maintenance */
+					etat_moteur_ess_av := arretMaintenance ||
+					dmd_commodo := d_repos
+				END
+			END
+		ELSE
+			IF etat_moteur_ess_av = arretMaintenance
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				dmd_commodo := d_interm		||
+				etat_moteur_ess_av := mInter
+			END
+		END
+		||
+		dmd_commodo_user := interm ||
+		/* la demande de commande utilisateur est mise sur intermittence*/	
+		IF(t_int_av=T_REDUC_PV_INT  or t_int_av = T_INT_FIXE)
+		THEN
+			IF(type_vitesse = ascendant)
+			THEN
+				IF (vitesse_vehicule < 10)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					IF (vitesse_vehicule < 50)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+						IF (vitesse_vehicule < 90)
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END 
+					END 
+				END
+			ELSE
+				IF (vitesse_vehicule < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+				IF (vitesse_vehicule < 40)
+				THEN
+					t_int_av := T_INT_AV_LENTE
+				ELSE
+				IF (vitesse_vehicule < 80)
+				THEN
+					t_int_av := T_INT_AV_MOYENNE
+				ELSE
+					t_int_av := T_INT_AV_RAPIDE
+				END END END
+			END
+		END
+	END;
+	
+
+
+
+action_commodo_auto =
+	PRE
+		etat_commodo = fonctionnel	&
+		/* le commodo doit etre fonctionnel*/ 
+		dmd_commodo_user /= auto &
+		/* la demande de commande utilisateur ne doit pas etre sur automatique */
+		presence_CDP = true
+		/* pour lancer cette commande, il faut que le capteur de pluie soit présent */
+	THEN
+		IF (alimentation  = aucune)
+		THEN
+			IF depassement_temps_maintenance = false
+			THEN
+				/* maintenance */
+				IF etat_moteur_ess_av = arretMaintenance
+				THEN
+					/* on remet les essuies-vitres en position arret-fixe */
+					etat_moteur_ess_av := arretFixeAv
+				ELSE
+					/* on met les essuies-vitres en position maintenance */
+					etat_moteur_ess_av := arretMaintenance ||
+					dmd_commodo := d_repos
+				END
+			END
+		ELSE
+			IF etat_moteur_ess_av = arretMaintenance
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				dmd_commodo := d_auto			||
+				IF etat_cdp = c_fonctionnel
+				THEN
+					etat_moteur_ess_av := pv1cycle
+				ELSE
+					etat_moteur_ess_av := mInter
+				END
+			END
+		END			||
+		dmd_commodo_user := auto
+		||
+		IF(t_int_av=T_REDUC_PV_INT & etat_cdp = c_fonctionnel)
+		THEN
+			IF(type_vitesse = ascendant)
+			THEN
+				t_int_av := T_INT_AV_TRES_LENTE
+			ELSE
+				IF (vitesse_vehicule < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					t_int_av := T_INT_AV_LENTE
+				END
+			END
+		ELSE
+			IF etat_cdp /= c_fonctionnel
+			THEN
+				t_int_av := T_INT_FIXE
+			END
+		END
+	END;
+
+action_lavage_deb =
+	PRE
+		alimentation = accessoire	&
+		etat_commodo = fonctionnel
+		/* le commodo doit etre fonctionnel*/ 
+	THEN
+		/* on lave à la vitesse du moteur sauf pour intermitence */
+		IF etat_moteur_ess_av/=protectionMoteur
+		THEN
+			IF etat_moteur_ess_av = mgv or etat_moteur_ess_av = gv3cycles
+			THEN
+				etat_moteur_ess_av := gv3cyclesLavage
+			ELSE
+				etat_moteur_ess_av := pv3cyclesLavage
+			END
+		END
+	END;
+
+action_lavage_fin =
+	PRE
+		alimentation = accessoire	&
+		(etat_moteur_ess_av = pv3cyclesLavage or etat_moteur_ess_av = gv3cyclesLavage)
+	THEN
+		IF etat_moteur_ess_av/=protectionMoteur
+		THEN
+			IF t_int_av /= T_INT_FIXE
+			THEN
+				IF dmd_commodo=d_repos
+				THEN
+					etat_moteur_ess_av := arretFixeAv
+				ELSE
+					IF dmd_commodo=d_pv
+					THEN 
+						IF((seuil_depasse_vit2 = true) & 
+							seuil_depasse_vit1 = true)
+						THEN etat_moteur_ess_av := mInter
+						ELSE etat_moteur_ess_av := mpv
+						END
+					ELSE
+						IF dmd_commodo=d_gv
+						THEN 
+							IF((seuil_depasse_vit2 = true) & 
+								seuil_depasse_vit1 = true)
+							THEN etat_moteur_ess_av := mpv
+							ELSE etat_moteur_ess_av := mgv
+							END
+						ELSE
+							IF dmd_commodo=d_interm
+							THEN 
+								etat_moteur_ess_av := mInter
+							ELSE
+								etat_moteur_ess_av := arretFixeAv
+							END
+						END
+					END
+				END
+			ELSE
+				/*cas où on est en intermittence fixe*/
+				etat_moteur_ess_av := mInter
+			END
+		END
+	END;
+
+action_pvi_deb =
+	PRE
+		alimentation = accessoire	&
+		etat_commodo = fonctionnel
+		/* le commodo doit etre fonctionnel */ 
+	THEN
+		IF etat_moteur_ess_av = arretFixeAv 
+		THEN
+			etat_moteur_ess_av := pv1cycle
+		END
+	END;
+
+action_pvi_fin = 
+	PRE
+		alimentation = accessoire	&
+		etat_moteur_ess_av = pv1cycle &
+		dmd_commodo = d_repos &
+		etat_cdp = c_fonctionnel &
+		etat_commodo = fonctionnel
+	THEN
+		IF etat_moteur_ess_av/=protectionMoteur
+		THEN
+			IF dmd_commodo=d_repos
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				IF dmd_commodo=d_pv
+				THEN 
+					IF((seuil_depasse_vit2 = true) & 
+						seuil_depasse_vit1 = true)
+					THEN etat_moteur_ess_av := mInter
+					ELSE etat_moteur_ess_av := mpv
+					END
+				ELSE
+					IF dmd_commodo=d_gv
+					THEN 
+						IF((seuil_depasse_vit2 = true) & 
+							seuil_depasse_vit1 = true)
+						THEN etat_moteur_ess_av := mpv
+						ELSE etat_moteur_ess_av := mgv
+						END
+					ELSE
+						IF dmd_commodo=d_interm
+						THEN 
+							etat_moteur_ess_av := mInter
+						ELSE
+							etat_moteur_ess_av := arretFixeAv
+						END
+					END
+				END
+			END
+		END
+	END;
+	
+
+
+action_commodo_defaillance_deb =
+	PRE
+		etat_commodo = fonctionnel
+		/* le commodo doit etre fonctionnel*/ 
+	THEN
+		etat_commodo := defaillant   	||
+		IF(alimentation=accessoire & etat_cdp = c_fonctionnel & 
+			etat_moteur_ess_av /= protectionMoteur & presence_CDP=true)
+		THEN
+			etat_moteur_ess_av := pv1cycle
+		ELSE
+			IF  etat_cdp = c_defaillant or presence_CDP = false
+			THEN
+				IF  etat_moteur_ess_av /= protectionMoteur
+					& alimentation=accessoire
+				THEN
+					etat_moteur_ess_av := mInter
+				END ||
+				t_int_av := T_INT_FIXE
+			END
+		END ||
+		/* les seuils ne sont plus dépassés */
+		seuil_depasse_vit2 := false ||
+		seuil_depasse_vit1 := false
+	END;
+
+action_commodo_defaillance_fin =
+	PRE
+		etat_commodo = defaillant
+	THEN
+		etat_commodo := fonctionnel	||
+		IF alimentation = accessoire &  etat_moteur_ess_av/=protectionMoteur
+		THEN
+			/* revient à l'état d'avant la défaillance */
+			IF dmd_commodo=d_repos
+			THEN
+				etat_moteur_ess_av := arretFixeAv
+			ELSE
+				IF dmd_commodo=d_pv
+				THEN 
+					etat_moteur_ess_av := mpv
+				ELSE
+					IF dmd_commodo=d_gv
+					THEN 
+						etat_moteur_ess_av := mgv
+					ELSE
+						IF dmd_commodo=d_interm
+						THEN 
+							etat_moteur_ess_av := mInter
+						ELSE
+							IF dmd_commodo = d_auto & 
+								etat_cdp = c_defaillant
+							THEN
+								etat_moteur_ess_av := mInter
+							ELSE
+								etat_moteur_ess_av := pv1cycle
+							END
+						END
+					END
+				END
+			END
+		END ||
+		IF((dmd_commodo=d_gv or dmd_commodo=d_pv) & vitesse_vehicule > VIT2)
+		/* gestion du dépassement des seuils */
+		THEN
+			seuil_depasse_vit2 := true
+		ELSE
+			seuil_depasse_vit2 := false
+		END
+		||
+		/* On doit pouvoir réduire cette partie : on devrait recalculer l'intermittence 
+			que dans le cas où l'intermittence était à T_INT_FIXE */
+		IF dmd_commodo = d_pv & seuil_depasse_vit2 = true &
+			seuil_depasse_vit1 = true
+		THEN
+			t_int_av := T_REDUC_PV_INT
+		ELSE
+			IF (dmd_commodo = d_auto & etat_cdp = c_defaillant)
+			THEN
+				t_int_av := T_INT_FIXE
+			ELSE
+				IF(type_vitesse = ascendant)
+				THEN
+					IF (vitesse_vehicule < 10)
+					THEN
+						t_int_av := T_INT_AV_TRES_LENTE
+					ELSE
+						IF (vitesse_vehicule < 50)
+						THEN
+							t_int_av := T_INT_AV_LENTE
+						ELSE
+							IF (vitesse_vehicule < 90)
+							THEN
+								t_int_av := T_INT_AV_MOYENNE
+							ELSE
+								t_int_av := T_INT_AV_RAPIDE
+							END 
+						END 
+					END
+				ELSE
+					IF (vitesse_vehicule < 5)
+					THEN
+						t_int_av := T_INT_AV_TRES_LENTE
+					ELSE
+					IF (vitesse_vehicule < 40)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+					IF (vitesse_vehicule < 80)
+					THEN
+						t_int_av := T_INT_AV_MOYENNE
+					ELSE
+						t_int_av := T_INT_AV_RAPIDE
+					END END END
+				END
+			END
+		END
+	END;		
+
+action_cdp_defaillant_deb =
+	PRE
+		etat_cdp = c_fonctionnel &
+		presence_CDP = true
+	THEN
+		etat_cdp := c_defaillant ||
+		IF (etat_commodo = defaillant or dmd_commodo =d_auto) 
+		THEN
+			IF etat_moteur_ess_av /=protectionMoteur & alimentation = accessoire
+			THEN
+				etat_moteur_ess_av := mInter 
+			END ||
+			t_int_av := T_INT_FIXE 
+		END
+	END;
+
+action_cdp_defaillant_fin =
+	PRE
+		etat_cdp = c_defaillant &
+		presence_CDP = true
+	THEN
+		etat_cdp := c_fonctionnel ||
+		IF etat_commodo /= defaillant & alimentation = accessoire & 
+			etat_moteur_ess_av/=protectionMoteur
+		THEN
+		/* retour à l'état d'avant la défaillance */
+			IF dmd_commodo=d_repos
+			THEN
+					etat_moteur_ess_av := arretFixeAv
+			ELSE
+				IF dmd_commodo=d_pv
+				THEN 
+					IF((seuil_depasse_vit2 = true) & seuil_depasse_vit1 = true)
+					THEN etat_moteur_ess_av := mInter
+					ELSE etat_moteur_ess_av := mpv
+					END
+				ELSE
+					IF dmd_commodo=d_gv
+					THEN 
+						IF((seuil_depasse_vit2 = true) &
+							seuil_depasse_vit1 = true)
+						THEN etat_moteur_ess_av := mpv
+						ELSE etat_moteur_ess_av := mgv
+						END
+					ELSE
+						IF dmd_commodo=d_interm
+						THEN 
+							etat_moteur_ess_av := mInter
+						ELSE
+							/* on est en automatique */
+							etat_moteur_ess_av := pv1cycle
+						END
+					END
+				END
+			END
+		ELSE
+			IF alimentation =accessoire & etat_moteur_ess_av /= protectionMoteur
+			THEN
+				etat_moteur_ess_av := pv1cycle
+			END
+		END ||
+		/* calcul de la nouvelle intermittence */
+		IF dmd_commodo = d_pv & seuil_depasse_vit2 = true &
+			seuil_depasse_vit1 = true
+		THEN
+			t_int_av := T_REDUC_PV_INT
+		ELSE
+			IF(type_vitesse = ascendant)
+			THEN
+				IF (vitesse_vehicule < 10)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					IF (vitesse_vehicule < 50)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+						IF (vitesse_vehicule < 90)
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END 
+					END 
+				END
+			ELSE
+				IF (vitesse_vehicule < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+				IF (vitesse_vehicule < 40)
+				THEN
+					t_int_av := T_INT_AV_LENTE
+				ELSE
+				IF (vitesse_vehicule < 80)
+				THEN
+					t_int_av := T_INT_AV_MOYENNE
+				ELSE
+					t_int_av := T_INT_AV_RAPIDE
+				END END END
+			END
+		END
+	END;
+	
+bloquer_le_moteur_ess_av =
+	/* le moteur se met en protection moteur : utilisé dans la maintenance */
+	PRE
+		etat_moteur_ess_av /= protectionMoteur
+	THEN
+		etat_moteur_ess_av := protectionMoteur
+	END;
+
+depasser_temps_maintenance = 
+	PRE
+		depassement_temps_maintenance = false 		&
+		alimentation = aucune
+	THEN
+		depassement_temps_maintenance := true
+	END;
+	
+depasser_temps_perte_acc =
+	PRE
+		alimentation = aucune		&
+		t_perte_acc_depasse = false
+	THEN
+		t_perte_acc_depasse := true
+	END;
+
+alimentation_acc =
+	PRE
+		alimentation /= accessoire	&
+		vitesse_vehicule = 0
+	THEN
+		IF (alimentation = aucune & t_perte_acc_depasse = true)
+		THEN
+			/* si T_PERTE_ACC est dépassée, on réinitialise tout */
+			IF etat_moteur_ess_av/=protectionMoteur & 
+				etat_moteur_ess_av /= arretMaintenance
+			THEN
+				IF t_int_av = T_INT_FIXE
+				THEN
+					IF dmd_commodo = d_auto
+					THEN
+						etat_moteur_ess_av := arretFixeAv
+					ELSE
+						etat_moteur_ess_av := mInter
+					END
+				ELSE
+					IF etat_commodo=defaillant
+					THEN
+						etat_moteur_ess_av := pv1cycle
+					ELSE
+						etat_moteur_ess_av := arretFixeAv
+					END
+				END
+			ELSE
+				IF etat_moteur_ess_av = arretMaintenance & t_int_av = T_INT_FIXE &
+						dmd_commodo /= d_auto
+				THEN
+					etat_moteur_ess_av := mInter
+				END
+			END	||
+			IF (t_int_av = T_INT_FIXE & dmd_commodo = d_auto) or 
+				(t_int_av = T_REDUC_PV_INT)
+			THEN
+				/* on a perdu le fait qu'on était en auto donc on sort de 
+				l'intermittence Fixe et on remet l'intermittence à tres lente car 
+				la vitesse est nulle*/
+				t_int_av := T_INT_AV_TRES_LENTE
+			END ||
+			dmd_commodo := d_repos||
+			seuil_depasse_vit1 := false ||
+			seuil_depasse_vit2 := false 
+		ELSE
+			/* si T_PERTE_ACC n'est pas dépassé, on reprend où on s'était arrêté */
+			IF etat_moteur_ess_av/=protectionMoteur & etat_moteur_ess_av /= 
+				arretMaintenance
+			THEN
+				IF t_int_av = T_INT_FIXE
+				THEN
+					etat_moteur_ess_av := mInter
+				ELSE
+					IF etat_commodo=defaillant
+					THEN
+						etat_moteur_ess_av := pv1cycle
+					ELSE
+						IF dmd_commodo=d_repos
+						THEN
+							etat_moteur_ess_av := arretFixeAv
+						ELSE
+							IF dmd_commodo=d_pv
+							THEN 
+							IF((seuil_depasse_vit2 = true) & 
+								seuil_depasse_vit1 =true )
+							THEN etat_moteur_ess_av := mInter
+							ELSE etat_moteur_ess_av := mpv
+							END
+							ELSE
+							IF dmd_commodo=d_gv
+							THEN 
+							IF((seuil_depasse_vit2 = true) & 
+								seuil_depasse_vit1 = true)
+							THEN etat_moteur_ess_av := mpv
+							ELSE etat_moteur_ess_av := mgv
+							END
+							ELSE
+							IF dmd_commodo=d_interm
+							THEN etat_moteur_ess_av := mInter
+							ELSE etat_moteur_ess_av := pv1cycle
+							END
+							END
+							END
+						END
+					END
+				END
+			ELSE
+				IF etat_moteur_ess_av = arretMaintenance & t_int_av = T_INT_FIXE &
+						dmd_commodo /= d_auto
+				THEN
+					etat_moteur_ess_av := mInter
+				END
+			END
+		END 	||
+		alimentation := accessoire		||
+		t_perte_acc_depasse := false		||
+		depassement_temps_maintenance := false 
+	END;			
+
+alimentation_dem =
+	PRE
+		alimentation = accessoire	&
+		vitesse_vehicule = 0
+	THEN
+		alimentation := demarreur		||
+		depassement_temps_maintenance := false ||
+		t_perte_acc_depasse := false ||
+		IF etat_moteur_ess_av /= protectionMoteur
+		THEN
+			etat_moteur_ess_av := suspendu
+		END
+	END;
+	
+alimentation_coupe =
+	PRE
+		alimentation = accessoire &
+		vitesse_vehicule = 0
+	THEN
+		alimentation := aucune		||
+		depassement_temps_maintenance := false	||
+		t_perte_acc_depasse := false ||
+		IF etat_moteur_ess_av /= protectionMoteur
+		THEN
+			etat_moteur_ess_av := arretFixeAv
+		END
+	END;
+	
+
+
+action_CDP_pv =
+	SELECT
+		alimentation  = accessoire	&
+		(dmd_commodo = d_auto or etat_commodo = defaillant) &
+		etat_cdp = c_fonctionnel &
+		presence_CDP = true
+	THEN
+		cdp := pvCDP			||
+		IF(etat_moteur_ess_av /= protectionMoteur)
+		THEN
+			etat_moteur_ess_av := mpv
+		END
+	END;
+
+action_CDP_gv =
+	SELECT
+		alimentation = accessoire	&
+		(dmd_commodo = d_auto or etat_commodo = defaillant) &
+		etat_cdp = c_fonctionnel &
+		presence_CDP = true
+	THEN
+		cdp := gvCDP			||
+		IF(etat_moteur_ess_av /= protectionMoteur)
+		THEN
+			etat_moteur_ess_av := gv3cycles
+		END
+	END;
+
+action_CDP_arret =
+	SELECT
+		alimentation = accessoire	&
+		(dmd_commodo = d_auto or etat_commodo = defaillant) &
+		etat_cdp = c_fonctionnel &
+		presence_CDP = true
+	THEN
+		/* le capteur ne capte rien*/
+		IF(etat_moteur_ess_av /= protectionMoteur)
+		THEN
+			etat_moteur_ess_av := arretFixeAv
+		END			||
+		cdp := arretCDP
+	END;
+
+
+
+deceleration(varvit) =
+	PRE
+		varvit : VITESSE		&
+		alimentation = accessoire	&
+		(varvit <= vitesse_vehicule) 
+	THEN
+		IF((dmd_commodo = d_pv  or dmd_commodo = d_gv) & seuil_depasse_vit2 = true & 
+			(vitesse_vehicule - varvit < VIT1 or seuil_depasse_vit1 = true))
+		/* cas d'une décélaration après avoir franchi le seuil */
+		THEN
+			seuil_depasse_vit1 := true ||
+			IF(dmd_commodo = d_pv & t_int_av /= T_INT_FIXE)
+			THEN
+				IF(etat_moteur_ess_av/=protectionMoteur)
+				THEN
+					etat_moteur_ess_av := mInter		
+				END ||
+				t_int_av := T_REDUC_PV_INT
+			ELSE
+				IF(dmd_commodo_user = gv & t_int_av /= T_INT_FIXE)
+				THEN
+					etat_moteur_ess_av := mpv	||
+					IF (vitesse_vehicule - varvit < 5)
+					THEN
+						t_int_av := T_INT_AV_TRES_LENTE
+					ELSE
+					IF (vitesse_vehicule - varvit < 40)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+					IF (vitesse_vehicule - varvit < 80)
+					THEN
+						t_int_av := T_INT_AV_MOYENNE
+					ELSE
+						t_int_av := T_INT_AV_RAPIDE
+					END END	END
+				END
+			END
+		ELSE
+			IF t_int_av /= T_INT_FIXE
+			THEN
+				IF ((vitesse_vehicule - varvit) < 5)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+				IF (vitesse_vehicule - varvit < 40)
+				THEN
+					t_int_av := T_INT_AV_LENTE
+				ELSE
+				IF (vitesse_vehicule - varvit < 80)
+				THEN
+					t_int_av := T_INT_AV_MOYENNE
+				ELSE
+					t_int_av := T_INT_AV_RAPIDE
+				END END END
+			END
+		END ||
+		vitesse_vehicule := vitesse_vehicule - varvit	||
+		type_vitesse := descendant
+	END;
+
+acceleration(varvit) =
+	PRE
+		alimentation = accessoire	&
+		varvit : VITESSE			&
+		varvit + vitesse_vehicule < MAX_VITESSE
+	THEN
+		IF ((dmd_commodo = d_pv  or dmd_commodo = d_gv) & 
+			seuil_depasse_vit2 = false & vitesse_vehicule + varvit > VIT2  )
+		/* on ne modifie ce seuil à la condition que le seuil n'ait pas 
+			encore été modifié*/
+		THEN
+			seuil_depasse_vit2 := true
+		END		||
+		IF (not(dmd_commodo = d_pv & etat_moteur_ess_av = mInter & 
+			(vitesse_vehicule+varvit) <= VIT2)) & t_int_av /= T_INT_FIXE
+		THEN
+			IF ((vitesse_vehicule+varvit) < 10)
+			THEN
+				t_int_av := T_INT_AV_TRES_LENTE
+			ELSE
+			IF (vitesse_vehicule+varvit < 50)
+			THEN
+				t_int_av := T_INT_AV_LENTE
+			ELSE
+			IF (vitesse_vehicule+varvit < 90)
+			THEN
+				t_int_av := T_INT_AV_MOYENNE
+			ELSE
+				t_int_av := T_INT_AV_RAPIDE
+			END END END 
+		END ||
+		IF ((dmd_commodo = d_pv) & (etat_moteur_ess_av = mInter) & 
+			(vitesse_vehicule+varvit) > VIT2)
+		/* passage d'intermmitence à pv ou pv à gv en fonction de la vitesse du véhicule */
+		THEN
+			IF(etat_moteur_ess_av /= protectionMoteur & t_int_av /= T_INT_FIXE)
+			THEN
+				etat_moteur_ess_av := mpv 
+			END ||
+			seuil_depasse_vit1 := false
+		ELSE
+			IF(dmd_commodo = d_gv & etat_moteur_ess_av =mpv & 
+				(vitesse_vehicule+varvit) >VIT2)
+			THEN
+				IF(etat_moteur_ess_av /= protectionMoteur &
+					t_int_av /= T_INT_FIXE)
+				THEN
+					etat_moteur_ess_av := mgv 
+				END ||
+				seuil_depasse_vit1 := false
+			END
+		END ||
+		vitesse_vehicule := vitesse_vehicule + varvit	||
+		type_vitesse := ascendant
+	END;
+	
+vitesse(vit) =
+	PRE
+		alimentation = accessoire	&
+		vit : VITESSE			
+	THEN
+		IF ((dmd_commodo = d_pv  or dmd_commodo = d_gv) & seuil_depasse_vit2 = false &
+			vit > VIT2  )
+		/* on ne modifie ce seuil à la condition que le seuil n'ait pas encore été 
+			modifié lors d'une accélération */
+		THEN
+			seuil_depasse_vit2 := true
+		END				||
+		IF (vitesse_vehicule < vit)
+		THEN
+			type_vitesse := ascendant ||
+			IF(dmd_commodo = d_pv & etat_moteur_ess_av = mInter & 
+				vit > VIT2)
+			/* passage d'intermmitence à pv ou pv à gv en fonction de la 
+				vitesse du véhicule */
+			THEN
+				IF etat_moteur_ess_av /= protectionMoteur & t_int_av /= T_INT_FIXE
+				THEN
+					etat_moteur_ess_av := mpv
+				END ||
+				seuil_depasse_vit1 := false
+			ELSE
+				IF(dmd_commodo = d_gv & etat_moteur_ess_av =mpv &
+					vit > VIT2)
+				THEN
+					IF etat_moteur_ess_av /= protectionMoteur & 
+						t_int_av /= T_INT_FIXE
+					THEN
+						etat_moteur_ess_av := mgv 
+					END ||
+					seuil_depasse_vit1 := false
+				END
+			END
+			||
+			IF (not (dmd_commodo = d_pv & etat_moteur_ess_av = mInter &
+				vit <= VIT2)) & t_int_av /= T_INT_FIXE
+			THEN
+				IF (vit < 10)
+				THEN
+					t_int_av := T_INT_AV_TRES_LENTE
+				ELSE
+					IF (vit < 50)
+					THEN
+						t_int_av := T_INT_AV_LENTE
+					ELSE
+						IF (vit < 90)
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END 
+					END 
+				END
+			END
+		ELSE
+			type_vitesse := descendant ||
+			IF((dmd_commodo = d_pv  or dmd_commodo = d_gv) & 
+				seuil_depasse_vit2 = true & (vit < VIT1 or 
+				seuil_depasse_vit1 = true))
+		        /* cas d'une descélaration après avoir franchi le seuil vit2*/
+		        THEN
+				seuil_depasse_vit1 := true ||
+				IF(dmd_commodo = d_pv & t_int_av /= T_INT_FIXE)
+			        THEN
+					IF(etat_moteur_ess_av /= protectionMoteur)
+					THEN
+					       etat_moteur_ess_av := mInter
+					END ||
+				       t_int_av := T_REDUC_PV_INT
+				ELSE
+					IF t_int_av /= T_INT_FIXE
+					THEN
+						IF dmd_commodo = d_gv
+						THEN
+							etat_moteur_ess_av := mpv ||
+							IF (vit < 5)
+							/* Soustraction de vitesse a controler*/	
+							THEN
+								t_int_av := T_INT_AV_TRES_LENTE
+							ELSE
+							IF (vit < 40)
+							/* Soustraction de vitesse a controler*/
+							THEN t_int_av := T_INT_AV_LENTE
+							ELSE
+							IF (vit < 80)
+							/* Soustraction de vitesse a controler*/
+							THEN t_int_av := T_INT_AV_MOYENNE
+							ELSE t_int_av := T_INT_AV_RAPIDE
+							END
+							END
+							END
+						END
+					END
+				END
+			ELSE
+				IF t_int_av /= T_INT_FIXE
+				THEN
+					IF (vit < 5)
+					/* Soustraction de vitesse a controler*/	
+					THEN
+						t_int_av := T_INT_AV_TRES_LENTE
+					ELSE
+						IF (vit < 40)
+						/* Soustraction de vitesse a controler*/
+						THEN
+							t_int_av := T_INT_AV_LENTE
+						ELSE
+						IF (vit < 80)
+						/* Soustraction de vitesse a controler*/
+						THEN
+							t_int_av := T_INT_AV_MOYENNE
+						ELSE
+							t_int_av := T_INT_AV_RAPIDE
+						END
+						END
+					END
+				END
+			END
+		END ||
+		vitesse_vehicule := vit	
+	END
+
+END

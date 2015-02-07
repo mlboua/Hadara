@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Hadara:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Hadara_jar</output-path>
+    <root id="archive" name="Hadara.jar">
+      <element id="module-output" name="Hadara" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/JDOM/jdom-2.0.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CPredicateTriModalsAbstraction model="CofeeMachine">
+  <STATES>
+    <CState name="s10">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CNot>
+                <CEquals>
+                  <CVariable val="CofeeLeft" />
+                  <CNumber val="100" />
+                </CEquals>
+              </CNot>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="0" />
+            </CEquals>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Balance" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s5">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="CofeeLeft" />
+                <CNumber val="100" />
+              </CEquals>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CEquals>
+            <CVariable val="Statut" />
+            <CNumber val="2" />
+          </CEquals>
+        </CAnd>
+        <CEquals>
+          <CVariable val="Balance" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s3">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="CofeeLeft" />
+                <CNumber val="100" />
+              </CEquals>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="0" />
+            </CEquals>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CEquals>
+          <CVariable val="Balance" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s4">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="CofeeLeft" />
+                <CNumber val="100" />
+              </CEquals>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="0" />
+            </CEquals>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Balance" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s2">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="CofeeLeft" />
+                <CNumber val="100" />
+              </CEquals>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="1" />
+              </CEquals>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Balance" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s1">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="CofeeLeft" />
+                <CNumber val="100" />
+              </CEquals>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="1" />
+              </CEquals>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CEquals>
+          <CVariable val="Balance" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s11">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CNot>
+                <CEquals>
+                  <CVariable val="CofeeLeft" />
+                  <CNumber val="100" />
+                </CEquals>
+              </CNot>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CEquals>
+            <CVariable val="Statut" />
+            <CNumber val="2" />
+          </CEquals>
+        </CAnd>
+        <CEquals>
+          <CVariable val="Balance" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s6">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CEquals>
+                <CVariable val="CofeeLeft" />
+                <CNumber val="100" />
+              </CEquals>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CEquals>
+            <CVariable val="Statut" />
+            <CNumber val="2" />
+          </CEquals>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Balance" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s9">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CNot>
+                <CEquals>
+                  <CVariable val="CofeeLeft" />
+                  <CNumber val="100" />
+                </CEquals>
+              </CNot>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="0" />
+            </CEquals>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CEquals>
+          <CVariable val="Balance" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s8">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CNot>
+                <CEquals>
+                  <CVariable val="CofeeLeft" />
+                  <CNumber val="100" />
+                </CEquals>
+              </CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="1" />
+              </CEquals>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Balance" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s12">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CNot>
+                <CEquals>
+                  <CVariable val="CofeeLeft" />
+                  <CNumber val="100" />
+                </CEquals>
+              </CNot>
+              <CNot>
+                <CEquals>
+                  <CVariable val="Statut" />
+                  <CNumber val="1" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CEquals>
+            <CVariable val="Statut" />
+            <CNumber val="2" />
+          </CEquals>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Balance" />
+            <CNumber val="0" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s7">
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CNot>
+                <CEquals>
+                  <CVariable val="CofeeLeft" />
+                  <CNumber val="100" />
+                </CEquals>
+              </CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="1" />
+              </CEquals>
+            </CAnd>
+            <CNot>
+              <CEquals>
+                <CVariable val="Statut" />
+                <CNumber val="0" />
+              </CEquals>
+            </CNot>
+          </CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="Statut" />
+              <CNumber val="2" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CEquals>
+          <CVariable val="Balance" />
+          <CNumber val="0" />
+        </CEquals>
+      </CAnd>
+    </CState>
+  </STATES>
+  <TRANSITIONS>
+    <CTransition src="s11" dest="s12" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s8" dest="s8" name="serveCofee" type="MAY" />
+    <CTransition src="s4" dest="s4" name="takeMago" type="MUSTPlus" />
+    <CTransition src="s4" dest="s10" name="addCofee" type="MUSTPlus" />
+    <CTransition src="s4" dest="s4" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s8" dest="s2" name="serveCofee" type="MAY" />
+    <CTransition src="s10" dest="s10" name="takeMago" type="MUSTPlus" />
+    <CTransition src="s4" dest="s2" name="powerUp" type="MUSTPlusMinus" />
+    <CTransition src="s10" dest="s8" name="powerUp" type="MUSTPlusMinus" />
+    <CTransition src="s5" dest="s3" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s1" name="backBalance" type="MUSTPlusMinus" />
+    <CTransition src="s11" dest="s11" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s1" dest="s1" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s5" name="AutoOut" type="MAY" />
+    <CTransition src="s1" dest="s2" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s3" dest="s9" name="addCofee" type="MUSTPlus" />
+    <CTransition src="s9" dest="s7" name="powerUp" type="MUSTPlusMinus" />
+    <CTransition src="s9" dest="s3" name="addCofee" type="MUSTMinus" />
+    <CTransition src="s10" dest="s10" name="addCofee" type="MUSTPlus" />
+    <CTransition src="s8" dest="s7" name="backBalance" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s4" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s8" name="serveCofee" type="MAY" />
+    <CTransition src="s8" dest="s11" name="AutoOut" type="MAY" />
+    <CTransition src="s9" dest="s9" name="addCofee" type="MUSTPlus" />
+    <CTransition src="s6" dest="s6" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s7" dest="s8" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s7" dest="s9" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s8" dest="s8" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s9" dest="s9" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s12" dest="s12" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s5" dest="s6" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s3" dest="s3" name="takeMago" type="MUSTPlus" />
+    <CTransition src="s3" dest="s3" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s12" dest="s10" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s10" dest="s10" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s9" dest="s10" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s8" dest="s10" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s3" dest="s1" name="powerUp" type="MUSTPlusMinus" />
+    <CTransition src="s1" dest="s3" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s7" dest="s7" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s10" dest="s4" name="addCofee" type="MUSTMinus" />
+    <CTransition src="s7" dest="s11" name="AutoOut" type="MAY" />
+    <CTransition src="s5" dest="s5" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s2" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s6" dest="s4" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s3" dest="s4" name="insert" type="MUSTPlusMinus" />
+    <CTransition src="s1" dest="s5" name="AutoOut" type="MAY" />
+    <CTransition src="s11" dest="s9" name="powerDown" type="MUSTPlusMinus" />
+    <CTransition src="s9" dest="s9" name="takeMago" type="MUSTPlus" />
+  </TRANSITIONS>
+</CPredicateTriModalsAbstraction>

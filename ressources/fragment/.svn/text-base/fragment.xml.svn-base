@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE abstractionParameters SYSTEM "ParametersConfig.dtd">
+<abstractionParameters>
+    <z3binaryPath>/opt/z3/bin/z3</z3binaryPath>
+    <abstractStates>
+        <abstractState>pc=0 &amp; x&lt;3</abstractState>
+        <abstractState>pc=1 &amp; x&lt;3</abstractState>
+        <abstractState>pc=2 &amp; x&lt;3</abstractState>
+        <abstractState>pc=3 &amp; x&lt;3</abstractState>
+        <abstractState>pc=0 &amp; x&gt;=3</abstractState>
+        <abstractState>pc=1 &amp; x&gt;=3</abstractState>
+        <abstractState>pc=2 &amp; x&gt;=3</abstractState>
+        <abstractState>pc=3 &amp; x&gt;=3</abstractState>
+    </abstractStates>
+</abstractionParameters>

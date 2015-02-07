@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AbstractionPredicatsList>
+<CEquals>
+    <CVariable val="alimentation" />
+     <CNumber val="2" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="alimentation" />
+     <CNumber val="0" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="vitesse_vehicule" />
+     <CNumber val="0" />
+  </CEquals>
+  <CAnd>
+    <CEquals>
+    <CVariable val="depassement_temps_maintenance" />
+     <CNumber val="0" />
+  </CEquals>
+    <CEquals>
+    <CVariable val="t_perte_acc_depasse" />
+     <CNumber val="0" />
+  </CEquals>
+    </CAnd>
+	 <CAnd>
+		<CEquals>
+		<CVariable val="dmd_commodo_user" />
+		 <CNumber val="0" />
+	  </CEquals>
+		<CEquals>
+		<CVariable val="dmd_commodo" />
+		 <CNumber val="0" />
+	  </CEquals>
+	  <CEquals>
+		<CVariable val="etat_commodo" />
+		 <CNumber val="1" />
+	  </CEquals>
+	  <CEquals>
+		<CVariable val="type_vitesse" />
+		 <CNumber val="0" />
+	  </CEquals>
+	  <CEquals>
+		<CVariable val="etat_moteur_ess_av" />
+		 <CNumber val="2" />
+	  </CEquals>
+	  <CEquals>
+		<CVariable val="cdp" />
+		 <CNumber val="2" />
+	  </CEquals>
+	  <CEquals>
+		<CVariable val="etat_cdp" />
+		 <CNumber val="1" />
+	  </CEquals>
+	  <CEquals>
+		<CVariable val="presence_CDP" />
+		 <CNumber val="1" />
+	  </CEquals>
+    </CAnd>
+</AbstractionPredicatsList>

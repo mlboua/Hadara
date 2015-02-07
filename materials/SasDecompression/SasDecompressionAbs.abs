@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CPredicateTriModalsAbstraction model="SasDecompression">
+  <STATES>
+    <CState name="s5">
+      <CAnd>
+        <CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="porte_int" />
+              <CNumber val="1" />
+            </CEquals>
+          </CNot>
+          <CNot>
+            <CEquals>
+              <CVariable val="pression_sas" />
+              <CVariable val="pression_int" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="porte_sas" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s4">
+      <CAnd>
+        <CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="porte_int" />
+              <CNumber val="1" />
+            </CEquals>
+          </CNot>
+          <CNot>
+            <CEquals>
+              <CVariable val="pression_sas" />
+              <CVariable val="pression_int" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CEquals>
+          <CVariable val="porte_sas" />
+          <CNumber val="1" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s2">
+      <CAnd>
+        <CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="porte_int" />
+              <CNumber val="1" />
+            </CEquals>
+          </CNot>
+          <CEquals>
+            <CVariable val="pression_sas" />
+            <CVariable val="pression_int" />
+          </CEquals>
+        </CAnd>
+        <CEquals>
+          <CVariable val="porte_sas" />
+          <CNumber val="1" />
+        </CEquals>
+      </CAnd>
+    </CState>
+    <CState name="s1">
+      <CAnd>
+        <CAnd>
+          <CEquals>
+            <CVariable val="porte_int" />
+            <CNumber val="1" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="pression_sas" />
+            <CVariable val="pression_int" />
+          </CEquals>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="porte_sas" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+    <CState name="s3">
+      <CAnd>
+        <CAnd>
+          <CNot>
+            <CEquals>
+              <CVariable val="porte_int" />
+              <CNumber val="1" />
+            </CEquals>
+          </CNot>
+          <CEquals>
+            <CVariable val="pression_sas" />
+            <CVariable val="pression_int" />
+          </CEquals>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="porte_sas" />
+            <CNumber val="1" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+    </CState>
+  </STATES>
+  <TRANSITIONS>
+    <CTransition src="s3" dest="s3" name="fermeture_sas" type="MUSTPlus" />
+    <CTransition src="s3" dest="s1" name="ouverture_int" type="MUSTMinus" />
+    <CTransition src="s1" dest="s1" name="ouverture_int" type="MUSTPlusMinus" />
+    <CTransition src="s5" dest="s4" name="ouverture_sas" type="MAY" />
+    <CTransition src="s4" dest="s4" name="ouverture_sas" type="MAY" />
+    <CTransition src="s1" dest="s3" name="fermeture_int" type="MUSTPlus" />
+    <CTransition src="s5" dest="s5" name="fermeture_int" type="MUSTPlus" />
+    <CTransition src="s2" dest="s2" name="ouverture_sas" type="MAY" />
+    <CTransition src="s4" dest="s4" name="fermeture_int" type="MUSTPlus" />
+    <CTransition src="s5" dest="s5" name="augmentation_pression_sas" type="MAY" />
+    <CTransition src="s4" dest="s5" name="fermeture_sas" type="MUSTPlus" />
+    <CTransition src="s4" dest="s4" name="modif_pression_sas" type="MUSTPlus" />
+    <CTransition src="s3" dest="s2" name="ouverture_sas" type="MAY" />
+    <CTransition src="s5" dest="s5" name="fermeture_sas" type="MUSTPlus" />
+    <CTransition src="s2" dest="s3" name="fermeture_sas" type="MUSTPlus" />
+    <CTransition src="s1" dest="s1" name="modif_pression_int" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s4" name="modif_pression_sas" type="MUSTPlus" />
+    <CTransition src="s3" dest="s3" name="fermeture_int" type="MUSTPlus" />
+    <CTransition src="s5" dest="s3" name="augmentation_pression_sas" type="MAY" />
+    <CTransition src="s1" dest="s1" name="fermeture_sas" type="MUSTPlusMinus" />
+    <CTransition src="s2" dest="s2" name="fermeture_int" type="MUSTPlus" />
+  </TRANSITIONS>
+</CPredicateTriModalsAbstraction>

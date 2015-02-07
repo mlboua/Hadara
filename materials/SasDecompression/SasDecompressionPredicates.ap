@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AbstractionPredicatsList>
+  <CEquals>
+    <CVariable val="porte_sas" />
+    <CNumber val="1" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="porte_int" />
+    <CNumber val="1" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="pression_sas" />
+    <CVariable val="pression_int" />
+  </CEquals>
+</AbstractionPredicatsList>

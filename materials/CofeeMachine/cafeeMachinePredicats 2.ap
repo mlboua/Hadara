@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AbstractionPredicatsList>
+  <CEquals>
+    <CVariable val="Statut" />
+    <CNumber val="0" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="Statut" />
+    <CNumber val="1" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="Statut" />
+    <CNumber val="2" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="CofeeLeft" />
+    <CNumber val="0" />
+  </CEquals>
+  <CEquals>
+    <CVariable val="Mago" />
+    <CNumber val="0" />
+  </CEquals>
+  <CGreater>
+    <CVariable val="Balance" />
+    <CNumber val="0" />
+  </CGreater>
+  <COr>
+	  <CGreater>
+		<CVariable val="Balance" />
+		<CNumber val="60" />
+	  </CGreater>
+	  <CEquals>
+		<CVariable val="Balance" />
+		<CNumber val="60" />
+	  </CEquals>
+   </COr>  
+</AbstractionPredicatsList>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="QuiDonc">
+  <VARIABLES>
+    <CVariable val="Combine" />
+    <CVariable val="NbEssai" />
+    <CVariable val="Etat" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CAnd>
+        <CGreater>
+          <CVariable val="Combine" />
+          <CNumber val="25" />
+        </CGreater>
+        <CGreater>
+          <CNumber val="28" />
+          <CVariable val="Combine" />
+        </CGreater>
+        <CAnd>
+          <CGreater>
+            <CVariable val="NbEssai" />
+            <CNumber val="0" />
+          </CGreater>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="NbEssai" />
+          </CGreater>
+        </CAnd>
+        <CGreater>
+          <CVariable val="Etat" />
+          <CNumber val="19" />
+        </CGreater>
+        <CGreater>
+          <CNumber val="26" />
+          <CVariable val="Etat" />
+        </CGreater>
+      </CAnd>
+      <CAnd>
+        <COr>
+          <CNot>
+            <CEquals>
+              <CVariable val="Etat" />
+              <CNumber val="24" />
+            </CEquals>
+          </CNot>
+          <CEquals>
+            <CVariable val="Combine" />
+            <CNumber val="26" />
+          </CEquals>
+        </COr>
+        <COr>
+          <CNot>
+            <CEquals>
+              <CVariable val="Combine" />
+              <CNumber val="26" />
+            </CEquals>
+          </CNot>
+          <CEquals>
+            <CVariable val="Etat" />
+            <CNumber val="24" />
+          </CEquals>
+        </COr>
+      </CAnd>
+      <COr>
+        <CNot>
+          <CEquals>
+            <CVariable val="Etat" />
+            <CNumber val="24" />
+          </CEquals>
+        </CNot>
+        <CEquals>
+          <CVariable val="NbEssai" />
+          <CNumber val="0" />
+        </CEquals>
+      </COr>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CParallel>
+      <CAssignment>
+        <CVariable val="Combine" />
+        <CNumber val="26" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="NbEssai" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="Etat" />
+        <CNumber val="24" />
+      </CAssignment>
+    </CParallel>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="Appel_Qui_Donc">
+      <CEquals>
+        <CVariable val="Combine" />
+        <CNumber val="26" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="Combine" />
+          <CNumber val="27" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="r" />
+          <CNumber val="8" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="Etat" />
+          <CNumber val="20" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="Raccrocher">
+      <COr>
+        <CEquals>
+          <CVariable val="Combine" />
+          <CNumber val="27" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="Etat" />
+          <CNumber val="25" />
+        </CEquals>
+      </COr>
+      <CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="Etat" />
+            <CNumber val="24" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="r" />
+            <CNumber val="19" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="Combine" />
+          <CNumber val="26" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="NbEssai" />
+          <CNumber val="0" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="Delai_Ecoule">
+      <CAnd>
+        <CEquals>
+          <CVariable val="Combine" />
+          <CNumber val="27" />
+        </CEquals>
+        <CNot>
+          <CEquals>
+            <CVariable val="Etat" />
+            <CNumber val="25" />
+          </CEquals>
+        </CNot>
+      </CAnd>
+      <CIf>
+        <CEquals>
+          <CVariable val="Etat" />
+          <CNumber val="22" />
+        </CEquals>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="Etat" />
+            <CNumber val="25" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="r" />
+            <CNumber val="10" />
+          </CAssignment>
+        </CParallel>
+        <CIf>
+          <CEquals>
+            <CVariable val="NbEssai" />
+            <CNumber val="2" />
+          </CEquals>
+          <CParallel>
+            <CAssignment>
+              <CVariable val="r" />
+              <CNumber val="10" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="Etat" />
+              <CNumber val="25" />
+            </CAssignment>
+          </CParallel>
+          <CParallel>
+            <CAssignment>
+              <CVariable val="NbEssai" />
+              <CPlus>
+                <CVariable val="NbEssai" />
+                <CNumber val="1" />
+              </CPlus>
+            </CAssignment>
+            <CIf>
+              <CEquals>
+                <CVariable val="Etat" />
+                <CNumber val="20" />
+              </CEquals>
+              <CAssignment>
+                <CVariable val="r" />
+                <CNumber val="8" />
+              </CAssignment>
+              <CIf>
+                <CEquals>
+                  <CVariable val="Etat" />
+                  <CNumber val="21" />
+                </CEquals>
+                <CAssignment>
+                  <CVariable val="r" />
+                  <CNumber val="9" />
+                </CAssignment>
+                <CAssignment>
+                  <CVariable val="r" />
+                  <CNumber val="16" />
+                </CAssignment>
+              </CIf>
+            </CIf>
+          </CParallel>
+        </CIf>
+      </CIf>
+    </CGuardedEvent>
+    <CGuardedEvent name="Entrer">
+      <CAnd>
+        <CAnd>
+          <CEquals>
+            <CVariable val="Combine" />
+            <CNumber val="27" />
+          </CEquals>
+          <CNot>
+            <CEquals>
+              <CVariable val="Etat" />
+              <CNumber val="25" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CNot>
+          <CEquals>
+            <CVariable val="Etat" />
+            <CNumber val="24" />
+          </CEquals>
+        </CNot>
+        <CGreater>
+          <CVariable val="e" />
+          <CNumber val="0" />
+        </CGreater>
+        <CGreater>
+          <CNumber val="8" />
+          <CVariable val="e" />
+        </CGreater>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="NbEssai" />
+          <CNumber val="0" />
+        </CAssignment>
+        <CGuarded>
+          <CEquals>
+            <CVariable val="Etat" />
+            <CNumber val="20" />
+          </CEquals>
+          <CIf>
+            <CEquals>
+              <CVariable val="e" />
+              <CNumber val="7" />
+            </CEquals>
+            <CParallel>
+              <CAssignment>
+                <CVariable val="Etat" />
+                <CNumber val="21" />
+              </CAssignment>
+              <CAssignment>
+                <CVariable val="r" />
+                <CNumber val="9" />
+              </CAssignment>
+            </CParallel>
+            <CAssignment>
+              <CVariable val="r" />
+              <CNumber val="18" />
+            </CAssignment>
+          </CIf>
+        </CGuarded>
+      </CParallel>
+    </CGuardedEvent>
+  </EVENTS>
+</MACHINE>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="FermatTest3">
+  <VARIABLES>
+    <CVariable val="test" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CInDomain type="0">
+        <CVariable val="test" />
+      </CInDomain>
+      <CGreater>
+        <CVariable val="test" />
+        <CNumber val="0" />
+      </CGreater>
+      <CGreater>
+        <CNumber val="3" />
+        <CVariable val="test" />
+      </CGreater>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CAssignment>
+      <CVariable val="test" />
+      <CNumber val="1" />
+    </CAssignment>
+  </INITIALISATION>
+  <EVENTS>
+    <CAnyEvent name="TryTest">
+      <VariablesList>
+        <CVariable val="a" />
+        <CVariable val="b" />
+        <CVariable val="c" />
+      </VariablesList>
+      <CAnd>
+        <CGreater>
+          <CVariable val="a" />
+          <CNumber val="0" />
+        </CGreater>
+        <CGreater>
+          <CVariable val="b" />
+          <CNumber val="0" />
+        </CGreater>
+        <CGreater>
+          <CVariable val="c" />
+          <CNumber val="0" />
+        </CGreater>
+      </CAnd>
+      <CGuarded>
+        <CNot>
+          <CEquals>
+            <CMult>
+              <CVariable val="a" />
+              <CVariable val="a" />
+              <CVariable val="a" />
+            </CMult>
+            <CPlus>
+              <CMult>
+                <CVariable val="b" />
+                <CVariable val="b" />
+                <CVariable val="b" />
+              </CMult>
+              <CMult>
+                <CVariable val="c" />
+                <CVariable val="c" />
+                <CVariable val="c" />
+              </CMult>
+            </CPlus>
+          </CEquals>
+        </CNot>
+        <CAssignment>
+          <CVariable val="test" />
+          <CNumber val="2" />
+        </CAssignment>
+      </CGuarded>
+    </CAnyEvent>
+  </EVENTS>
+</MACHINE>

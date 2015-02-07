@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CPredicateTriModalsAbstraction model="RobotSimple">
+  <STATES>
+    <CState name="s2">
+      <CNot>
+        <CEquals>
+          <CVariable val="Dt" />
+          <CNumber val="1" />
+        </CEquals>
+      </CNot>
+    </CState>
+    <CState name="s1">
+      <CEquals>
+        <CVariable val="Dt" />
+        <CNumber val="1" />
+      </CEquals>
+    </CState>
+  </STATES>
+  <TRANSITIONS>
+    <CTransition src="s2" dest="s2" name="Evacuer" type="MAY" />
+    <CTransition src="s1" dest="s2" name="Charger" type="MUSTPlusMinus" />
+    <CTransition src="s1" dest="s1" name="Evacuer" type="MAY" />
+  </TRANSITIONS>
+</CPredicateTriModalsAbstraction>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE abstractionParameters SYSTEM "ParametersConfig.dtd">
+<abstractionParameters>
+    <z3binaryPath>/opt/z3/bin/z3</z3binaryPath>
+    <criterion>EV</criterion>
+    <abstractionPredicates>
+        <partitionPredicates>
+            <partitionPredicate>Deg = l</partitionPredicate>
+            <partitionPredicate>Deg = T2</partitionPredicate>
+            <partitionPredicate>(Deg = T1 or Deg = T3)</partitionPredicate>
+        </partitionPredicates>
+        <partitionPredicates>
+            <partitionPredicate>Dt = l</partitionPredicate>
+            <partitionPredicate>Dt = T3</partitionPredicate>
+            <partitionPredicate>(Dt = T1 or Dt = T2)</partitionPredicate>
+        </partitionPredicates>
+    </abstractionPredicates>
+    <eventMultipleCalls>
+        <eventMultipleCall>
+            <operationName>A_P</operationName>
+            <repetition>3</repetition>
+        </eventMultipleCall>
+    </eventMultipleCalls>
+</abstractionParameters>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AbstractionPredicatsList>
+  <CEquals>
+    <CVariable val="h" />
+    <CNumber val="1" />
+  </CEquals>
+  <COr>
+    <CEquals>
+      <CVariable val="Bat1" />
+      <CNumber val="1" />
+    </CEquals>
+    <CEquals>
+      <CVariable val="Bat2" />
+      <CNumber val="1" />
+    </CEquals>
+    <CEquals>
+      <CVariable val="Bat3" />
+      <CNumber val="1" />
+    </CEquals>
+  </COr>
+</AbstractionPredicatsList>

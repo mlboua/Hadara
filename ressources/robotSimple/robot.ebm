@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="robot">
+  <VARIABLES>
+    <CVariable val="De" />
+    <CVariable val="Dt" />
+    <CVariable val="Dc" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CGreater>
+        <CVariable val="De" />
+        <CNumber val="0" />
+      </CGreater>
+      <CGreater>
+        <CNumber val="6" />
+        <CVariable val="De" />
+      </CGreater>
+      <CGreater>
+        <CVariable val="Dt" />
+        <CNumber val="0" />
+      </CGreater>
+      <CGreater>
+        <CNumber val="6" />
+        <CVariable val="Dt" />
+      </CGreater>
+      <CGreater>
+        <CVariable val="Dc" />
+        <CNumber val="0" />
+      </CGreater>
+      <CGreater>
+        <CNumber val="3" />
+        <CVariable val="Dc" />
+      </CGreater>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CParallel>
+      <CAssignment>
+        <CVariable val="De" />
+        <CNumber val="1" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="Dt" />
+        <CNumber val="1" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="Dc" />
+        <CNumber val="1" />
+      </CAssignment>
+    </CParallel>
+  </INITIALISATION>
+  <EVENTS>
+    <CNonGuardedEvent name="hello">
+      <CAssignment>
+        <CVariable val="Dc" />
+        <CNumber val="1" />
+      </CAssignment>
+    </CNonGuardedEvent>
+    <CGuardedEvent name="chargement">
+      <CEquals>
+        <CVariable val="Dt" />
+        <CNumber val="1" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="Dt" />
+        <CNumber val="2" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CGuardedEvent name="dechargement">
+      <CAnd>
+        <CEquals>
+          <CVariable val="Dt" />
+          <CNumber val="2" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="De" />
+          <CNumber val="1" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="Dt" />
+          <CNumber val="1" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="De" />
+          <CNumber val="2" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="Dc" />
+          <CNumber val="3" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="evacuation">
+      <CEquals>
+        <CVariable val="De" />
+        <CNumber val="2" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="De" />
+        <CNumber val="1" />
+      </CAssignment>
+    </CGuardedEvent>
+  </EVENTS>
+</MACHINE>

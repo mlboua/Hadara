@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="fragment">
+  <VARIABLES>
+    <CVariable val="pc" />
+    <CVariable val="x" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CInDomain type="0">
+        <CVariable val="x" />
+      </CInDomain>
+      <CGreater>
+        <CVariable val="pc" />
+        <CNumber val="0" />
+      </CGreater>
+      <CGreater>
+        <CNumber val="3" />
+        <CVariable val="pc" />
+      </CGreater>
+      <CInDomain type="0">
+        <CVariable val="y" />
+      </CInDomain>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CParallel>
+      <CAssignment>
+        <CVariable val="pc" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAny>
+        <VariablesList>
+          <CVariable val="k" />
+          <CVariable val="v" />
+        </VariablesList>
+        <CInDomain type="0">
+          <CVariable val="k" />
+        </CInDomain>
+        <CAssignment>
+          <CVariable val="x" />
+          <CVariable val="k" />
+        </CAssignment>
+      </CAny>
+    </CParallel>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="e1">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="0" />
+        </CEquals>
+        <CGreater>
+          <CNumber val="3" />
+          <CVariable val="x" />
+        </CGreater>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CPlus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CPlus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e2">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="0" />
+        </CEquals>
+        <CGreater>
+          <CVariable val="x" />
+          <CNumber val="3" />
+        </CGreater>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CMinus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CMinus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e3">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CEquals>
+        <CGreater>
+          <CNumber val="3" />
+          <CVariable val="x" />
+        </CGreater>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="2" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CPlus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CPlus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e4">
+      <CAnd>
+        <CEquals>
+          <CVariable val="pc" />
+          <CNumber val="1" />
+        </CEquals>
+        <CGreater>
+          <CVariable val="x" />
+          <CNumber val="3" />
+        </CGreater>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="pc" />
+          <CNumber val="2" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="x" />
+          <CMinus>
+            <CVariable val="x" />
+            <CNumber val="1" />
+          </CMinus>
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="e5">
+      <CEquals>
+        <CVariable val="pc" />
+        <CNumber val="2" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="pc" />
+        <CNumber val="3" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CAnyEvent name="e6">
+      <VariablesList>
+        <CVariable val="z" />
+      </VariablesList>
+      <CGreater>
+        <CVariable val="z" />
+        <CNumber val="0" />
+      </CGreater>
+      <CAssignment>
+        <CVariable val="z" />
+        <CMult>
+          <CVariable val="z" />
+          <CNumber val="2" />
+        </CMult>
+      </CAssignment>
+    </CAnyEvent>
+  </EVENTS>
+</MACHINE>

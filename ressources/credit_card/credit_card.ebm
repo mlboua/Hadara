@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MACHINE name="credit_card1">
+  <VARIABLES>
+    <CVariable val="ATM_state" />
+    <CVariable val="CARD_state" />
+    <CVariable val="DB_state" />
+    <CVariable val="C_card_id" />
+    <CVariable val="C_card_pin" />
+    <CVariable val="C_user_pin" />
+    <CVariable val="C_counter" />
+    <CVariable val="DB_balance" />
+    <CVariable val="DB_count_id" />
+    <CVariable val="DB_card_id" />
+    <CVariable val="DB_error" />
+    <CVariable val="DB_asked_withdrawal" />
+    <CVariable val="A_result" />
+    <CVariable val="A_error" />
+    <CVariable val="A_user_pin" />
+    <CVariable val="A_card_id" />
+    <CVariable val="A_balance" />
+    <CVariable val="A_asked_withdrawal" />
+    <CVariable val="A_balance_after_operation" />
+  </VARIABLES>
+  <INVARIANT>
+    <CAnd>
+      <CAnd>
+        <CAnd>
+          <CAnd>
+            <CAnd>
+              <CAnd>
+                <CAnd>
+                  <CAnd>
+                    <CAnd>
+                      <CAnd>
+                        <CGreater>
+                          <CVariable val="ATM_state" />
+                          <CNumber val="21" />
+                        </CGreater>
+                        <CGreater>
+                          <CNumber val="37" />
+                          <CVariable val="ATM_state" />
+                        </CGreater>
+                        <CGreater>
+                          <CVariable val="CARD_state" />
+                          <CNumber val="36" />
+                        </CGreater>
+                        <CGreater>
+                          <CNumber val="43" />
+                          <CVariable val="CARD_state" />
+                        </CGreater>
+                      </CAnd>
+                      <CGreater>
+                        <CVariable val="DB_state" />
+                        <CNumber val="42" />
+                      </CGreater>
+                      <CGreater>
+                        <CNumber val="49" />
+                        <CVariable val="DB_state" />
+                      </CGreater>
+                      <CAnd>
+                        <CGreater>
+                          <CVariable val="C_card_id" />
+                          <CNumber val="0" />
+                        </CGreater>
+                        <CGreater>
+                          <CNumber val="9999" />
+                          <CVariable val="C_card_id" />
+                        </CGreater>
+                      </CAnd>
+                    </CAnd>
+                    <CAnd>
+                      <CGreater>
+                        <CVariable val="C_card_pin" />
+                        <CNumber val="0" />
+                      </CGreater>
+                      <CGreater>
+                        <CNumber val="9999" />
+                        <CVariable val="C_card_pin" />
+                      </CGreater>
+                    </CAnd>
+                    <CAnd>
+                      <CGreater>
+                        <CVariable val="C_user_pin" />
+                        <CNumber val="0" />
+                      </CGreater>
+                      <CGreater>
+                        <CNumber val="9999" />
+                        <CVariable val="C_user_pin" />
+                      </CGreater>
+                    </CAnd>
+                  </CAnd>
+                  <CAnd>
+                    <CGreater>
+                      <CVariable val="C_counter" />
+                      <CNumber val="0" />
+                    </CGreater>
+                    <CGreater>
+                      <CNumber val="2" />
+                      <CVariable val="C_counter" />
+                    </CGreater>
+                  </CAnd>
+                  <CAnd>
+                    <CGreater>
+                      <CVariable val="DB_balance" />
+                      <CNumber val="0" />
+                    </CGreater>
+                    <CGreater>
+                      <CNumber val="10000" />
+                      <CVariable val="DB_balance" />
+                    </CGreater>
+                  </CAnd>
+                </CAnd>
+                <CAnd>
+                  <CGreater>
+                    <CVariable val="DB_count_id" />
+                    <CNumber val="0" />
+                  </CGreater>
+                  <CGreater>
+                    <CNumber val="9999" />
+                    <CVariable val="DB_count_id" />
+                  </CGreater>
+                </CAnd>
+                <CAnd>
+                  <CGreater>
+                    <CVariable val="DB_card_id" />
+                    <CNumber val="0" />
+                  </CGreater>
+                  <CGreater>
+                    <CNumber val="9999" />
+                    <CVariable val="DB_card_id" />
+                  </CGreater>
+                </CAnd>
+              </CAnd>
+              <CAnd>
+                <CGreater>
+                  <CVariable val="DB_error" />
+                  <CNumber val="0" />
+                </CGreater>
+                <CGreater>
+                  <CNumber val="2" />
+                  <CVariable val="DB_error" />
+                </CGreater>
+              </CAnd>
+              <CAnd>
+                <CGreater>
+                  <CVariable val="DB_asked_withdrawal" />
+                  <CNumber val="0" />
+                </CGreater>
+                <CGreater>
+                  <CNumber val="10000" />
+                  <CVariable val="DB_asked_withdrawal" />
+                </CGreater>
+              </CAnd>
+            </CAnd>
+            <CGreater>
+              <CVariable val="A_result" />
+              <CNumber val="48" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="51" />
+              <CVariable val="A_result" />
+            </CGreater>
+            <CAnd>
+              <CGreater>
+                <CVariable val="A_error" />
+                <CNumber val="0" />
+              </CGreater>
+              <CGreater>
+                <CNumber val="2" />
+                <CVariable val="A_error" />
+              </CGreater>
+            </CAnd>
+          </CAnd>
+          <CAnd>
+            <CGreater>
+              <CVariable val="A_user_pin" />
+              <CNumber val="0" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="9999" />
+              <CVariable val="A_user_pin" />
+            </CGreater>
+          </CAnd>
+          <CAnd>
+            <CGreater>
+              <CVariable val="A_card_id" />
+              <CNumber val="0" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="9999" />
+              <CVariable val="A_card_id" />
+            </CGreater>
+          </CAnd>
+        </CAnd>
+        <CAnd>
+          <CGreater>
+            <CVariable val="A_balance" />
+            <CNumber val="0" />
+          </CGreater>
+          <CGreater>
+            <CNumber val="10000" />
+            <CVariable val="A_balance" />
+          </CGreater>
+        </CAnd>
+        <CAnd>
+          <CGreater>
+            <CVariable val="A_asked_withdrawal" />
+            <CNumber val="0" />
+          </CGreater>
+          <CGreater>
+            <CNumber val="10000" />
+            <CVariable val="A_asked_withdrawal" />
+          </CGreater>
+        </CAnd>
+      </CAnd>
+      <CAnd>
+        <CGreater>
+          <CVariable val="A_balance_after_operation" />
+          <CNumber val="0" />
+        </CGreater>
+        <CGreater>
+          <CNumber val="10000" />
+          <CVariable val="A_balance_after_operation" />
+        </CGreater>
+      </CAnd>
+      <COr>
+        <CNot>
+          <COr>
+            <CEquals>
+              <CVariable val="ATM_state" />
+              <CNumber val="32" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="ATM_state" />
+              <CNumber val="231" />
+            </CEquals>
+            <CEquals>
+              <CVariable val="ATM_state" />
+              <CNumber val="34" />
+            </CEquals>
+          </COr>
+        </CNot>
+        <CEquals>
+          <CVariable val="A_balance" />
+          <CVariable val="DB_balance" />
+        </CEquals>
+      </COr>
+    </CAnd>
+  </INVARIANT>
+  <INITIALISATION>
+    <CParallel>
+      <CParallel>
+        <CParallel>
+          <CParallel>
+            <CParallel>
+              <CParallel>
+                <CParallel>
+                  <CParallel>
+                    <CParallel>
+                      <CAssignment>
+                        <CVariable val="ATM_state" />
+                        <CNumber val="22" />
+                      </CAssignment>
+                      <CAssignment>
+                        <CVariable val="CARD_state" />
+                        <CNumber val="37" />
+                      </CAssignment>
+                      <CAssignment>
+                        <CVariable val="DB_state" />
+                        <CNumber val="43" />
+                      </CAssignment>
+                    </CParallel>
+                    <CAssignment>
+                      <CVariable val="C_card_id" />
+                      <CNumber val="3121" />
+                    </CAssignment>
+                    <CAssignment>
+                      <CVariable val="C_card_pin" />
+                      <CNumber val="4040" />
+                    </CAssignment>
+                  </CParallel>
+                  <CAssignment>
+                    <CVariable val="C_user_pin" />
+                    <CNumber val="0" />
+                  </CAssignment>
+                  <CAssignment>
+                    <CVariable val="C_counter" />
+                    <CNumber val="0" />
+                  </CAssignment>
+                </CParallel>
+                <CAssignment>
+                  <CVariable val="DB_balance" />
+                  <CNumber val="7400" />
+                </CAssignment>
+                <CAssignment>
+                  <CVariable val="DB_count_id" />
+                  <CNumber val="3121" />
+                </CAssignment>
+              </CParallel>
+              <CAssignment>
+                <CVariable val="DB_card_id" />
+                <CNumber val="0" />
+              </CAssignment>
+              <CAssignment>
+                <CVariable val="DB_error" />
+                <CNumber val="0" />
+              </CAssignment>
+            </CParallel>
+            <CAssignment>
+              <CVariable val="DB_asked_withdrawal" />
+              <CNumber val="0" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="A_result" />
+              <CNumber val="50" />
+            </CAssignment>
+          </CParallel>
+          <CAssignment>
+            <CVariable val="A_error" />
+            <CNumber val="0" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="A_user_pin" />
+            <CNumber val="0" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="A_card_id" />
+          <CNumber val="0" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="A_balance" />
+          <CNumber val="0" />
+        </CAssignment>
+      </CParallel>
+      <CAssignment>
+        <CVariable val="A_asked_withdrawal" />
+        <CNumber val="0" />
+      </CAssignment>
+      <CAssignment>
+        <CVariable val="A_balance_after_operation" />
+        <CNumber val="0" />
+      </CAssignment>
+    </CParallel>
+  </INITIALISATION>
+  <EVENTS>
+    <CGuardedEvent name="ATM_signal_connexion">
+      <CEquals>
+        <CVariable val="ATM_state" />
+        <CNumber val="22" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="1" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="23" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_operation_vide">
+      <CEquals>
+        <CVariable val="ATM_state" />
+        <CNumber val="23" />
+      </CEquals>
+      <CAssignment>
+        <CVariable val="ATM_state" />
+        <CNumber val="24" />
+      </CAssignment>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_demande_id">
+      <CAnd>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="24" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="CARD_state" />
+          <CNumber val="37" />
+        </CEquals>
+      </CAnd>
+      <CIf>
+        <CAnd>
+          <CAnd>
+            <CGreater>
+              <CNumber val="12345" />
+              <CVariable val="C_card_id" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="4823" />
+              <CMinus>
+                <CVariable val="C_card_id" />
+                <CNumber val="1" />
+              </CMinus>
+            </CGreater>
+          </CAnd>
+          <CGreater>
+            <CNumber val="4545" />
+            <CVariable val="C_card_pin" />
+          </CGreater>
+          <CGreater>
+            <CNumber val="9114" />
+            <CMinus>
+              <CVariable val="C_card_id" />
+              <CNumber val="1" />
+            </CMinus>
+          </CGreater>
+        </CAnd>
+        <CParallel>
+          <CParallel>
+            <CAssignment>
+              <CVariable val="out" />
+              <CNumber val="2" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="C_counter" />
+              <CNumber val="0" />
+            </CAssignment>
+          </CParallel>
+          <CAssignment>
+            <CVariable val="CARD_state" />
+            <CNumber val="38" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="ATM_state" />
+            <CNumber val="25" />
+          </CAssignment>
+        </CParallel>
+        <CSkip />
+      </CIf>
+    </CGuardedEvent>
+    <CGuardedEvent name="CARD_reponse_id">
+      <CAnd>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="25" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="CARD_state" />
+          <CNumber val="38" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="out" />
+            <CNumber val="3" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="A_card_id" />
+            <CVariable val="C_card_id" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="26" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="CARD_state" />
+          <CNumber val="39" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_demande_pin_user">
+      <CEquals>
+        <CVariable val="ATM_state" />
+        <CNumber val="26" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="27" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="5" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_recoit_pin_user">
+      <CEquals>
+        <CVariable val="ATM_state" />
+        <CNumber val="27" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="4" />
+        </CAssignment>
+        <CAny>
+          <VariablesList>
+            <CVariable val="xx" />
+          </VariablesList>
+          <CAnd>
+            <CAnd>
+              <CGreater>
+                <CVariable val="xx" />
+                <CNumber val="0" />
+              </CGreater>
+              <CGreater>
+                <CNumber val="9999" />
+                <CVariable val="xx" />
+              </CGreater>
+            </CAnd>
+            <COr>
+              <CEquals>
+                <CVariable val="xx" />
+                <CNumber val="4040" />
+              </CEquals>
+              <CEquals>
+                <CVariable val="xx" />
+                <CNumber val="2121" />
+              </CEquals>
+            </COr>
+          </CAnd>
+          <CAssignment>
+            <CVariable val="A_user_pin" />
+            <CVariable val="xx" />
+          </CAssignment>
+        </CAny>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="28" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_transfer_pin_user">
+      <CAnd>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="28" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="CARD_state" />
+          <CNumber val="39" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="out" />
+            <CNumber val="7" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="C_user_pin" />
+            <CVariable val="A_user_pin" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="29" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="CARD_state" />
+          <CNumber val="40" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="CARD_traite_pin">
+      <CAnd>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="29" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="CARD_state" />
+          <CNumber val="40" />
+        </CEquals>
+      </CAnd>
+      <CIf>
+        <CAnd>
+          <CGreater>
+            <CNumber val="2" />
+            <CVariable val="C_counter" />
+          </CGreater>
+          <CNot>
+            <CEquals>
+              <CVariable val="C_user_pin" />
+              <CVariable val="C_card_pin" />
+            </CEquals>
+          </CNot>
+        </CAnd>
+        <CParallel>
+          <CParallel>
+            <CAssignment>
+              <CVariable val="out" />
+              <CNumber val="8" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="A_result" />
+              <CNumber val="50" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="C_counter" />
+              <CPlus>
+                <CVariable val="C_counter" />
+                <CNumber val="1" />
+              </CPlus>
+            </CAssignment>
+          </CParallel>
+          <CAssignment>
+            <CVariable val="CARD_state" />
+            <CNumber val="39" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="ATM_state" />
+            <CNumber val="30" />
+          </CAssignment>
+        </CParallel>
+        <CIf>
+          <CAnd>
+            <CGreater>
+              <CNumber val="2" />
+              <CMinus>
+                <CVariable val="C_counter" />
+                <CNumber val="1" />
+              </CMinus>
+            </CGreater>
+            <CEquals>
+              <CVariable val="C_user_pin" />
+              <CVariable val="C_card_pin" />
+            </CEquals>
+          </CAnd>
+          <CAssignment>
+            <CVariable val="CARD_state" />
+            <CNumber val="41" />
+          </CAssignment>
+          <CIf>
+            <CAnd>
+              <CGreater>
+                <CVariable val="C_counter" />
+                <CMinus>
+                  <CNumber val="2" />
+                  <CNumber val="1" />
+                </CMinus>
+              </CGreater>
+              <CNot>
+                <CEquals>
+                  <CVariable val="C_user_pin" />
+                  <CVariable val="C_card_pin" />
+                </CEquals>
+              </CNot>
+            </CAnd>
+            <CAssignment>
+              <CVariable val="CARD_state" />
+              <CNumber val="42" />
+            </CAssignment>
+            <CSkip />
+          </CIf>
+        </CIf>
+      </CIf>
+    </CGuardedEvent>
+    <CGuardedEvent name="CARD_succes_pin">
+      <CAnd>
+        <CEquals>
+          <CVariable val="CARD_state" />
+          <CNumber val="41" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="29" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="out" />
+            <CNumber val="8" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="A_result" />
+            <CNumber val="49" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="CARD_state" />
+          <CNumber val="37" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="30" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="CARD_failed_pin">
+      <CAnd>
+        <CEquals>
+          <CVariable val="CARD_state" />
+          <CNumber val="42" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="29" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="9" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="CARD_state" />
+          <CNumber val="37" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="22" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_traite_reponse_pin">
+      <CAnd>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="30" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="DB_state" />
+          <CNumber val="43" />
+        </CEquals>
+      </CAnd>
+      <CIf>
+        <CAnd>
+          <CEquals>
+            <CVariable val="A_result" />
+            <CNumber val="49" />
+          </CEquals>
+          <CGreater>
+            <CVariable val="DB_balance" />
+            <CMinus>
+              <CNumber val="5000" />
+              <CNumber val="1" />
+            </CMinus>
+          </CGreater>
+          <CGreater>
+            <CNumber val="10000" />
+            <CMinus>
+              <CVariable val="DB_balance" />
+              <CNumber val="1" />
+            </CMinus>
+          </CGreater>
+        </CAnd>
+        <CParallel>
+          <CParallel>
+            <CAssignment>
+              <CVariable val="out" />
+              <CNumber val="10" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="DB_card_id" />
+              <CVariable val="A_card_id" />
+            </CAssignment>
+          </CParallel>
+          <CAssignment>
+            <CVariable val="ATM_state" />
+            <CNumber val="31" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="DB_state" />
+            <CNumber val="44" />
+          </CAssignment>
+        </CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="out" />
+            <CVariable val="env_another_enter_pin_message" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="ATM_state" />
+            <CNumber val="27" />
+          </CAssignment>
+        </CParallel>
+      </CIf>
+    </CGuardedEvent>
+    <CGuardedEvent name="DB_check_id">
+      <CEquals>
+        <CVariable val="DB_state" />
+        <CNumber val="44" />
+      </CEquals>
+      <CIf>
+        <CEquals>
+          <CVariable val="DB_card_id" />
+          <CVariable val="DB_count_id" />
+        </CEquals>
+        <CAssignment>
+          <CVariable val="DB_state" />
+          <CNumber val="45" />
+        </CAssignment>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="DB_error" />
+            <CNumber val="1" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="DB_state" />
+            <CNumber val="48" />
+          </CAssignment>
+        </CParallel>
+      </CIf>
+    </CGuardedEvent>
+    <CGuardedEvent name="DB_operation_not_done">
+      <CAnd>
+        <CEquals>
+          <CVariable val="DB_state" />
+          <CNumber val="48" />
+        </CEquals>
+        <COr>
+          <CEquals>
+            <CVariable val="ATM_state" />
+            <CNumber val="31" />
+          </CEquals>
+          <CEquals>
+            <CVariable val="ATM_state" />
+            <CNumber val="36" />
+          </CEquals>
+        </COr>
+      </CAnd>
+      <CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="out" />
+            <CNumber val="18" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="A_error" />
+            <CVariable val="DB_error" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="22" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="DB_state" />
+          <CNumber val="43" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="DB_demande_retrait">
+      <CAnd>
+        <CEquals>
+          <CVariable val="DB_state" />
+          <CNumber val="45" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="31" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CParallel>
+          <CAssignment>
+            <CVariable val="A_balance" />
+            <CVariable val="DB_balance" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="out" />
+            <CNumber val="12" />
+          </CAssignment>
+        </CParallel>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="32" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="DB_state" />
+          <CNumber val="46" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_demande_retrait">
+      <CEquals>
+        <CVariable val="ATM_state" />
+        <CNumber val="32" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="231" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="13" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_obtient_montant">
+      <CEquals>
+        <CVariable val="ATM_state" />
+        <CNumber val="231" />
+      </CEquals>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="14" />
+        </CAssignment>
+        <CAny>
+          <VariablesList>
+            <CVariable val="xx" />
+          </VariablesList>
+          <CAnd>
+            <CGreater>
+              <CVariable val="xx" />
+              <CNumber val="0" />
+            </CGreater>
+            <CGreater>
+              <CNumber val="10000" />
+              <CVariable val="xx" />
+            </CGreater>
+          </CAnd>
+          <CAssignment>
+            <CVariable val="A_asked_withdrawal" />
+            <CVariable val="xx" />
+          </CAssignment>
+        </CAny>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="34" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+    <CGuardedEvent name="ATM_traite_retrait">
+      <CAnd>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="34" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="DB_state" />
+          <CNumber val="46" />
+        </CEquals>
+      </CAnd>
+      <CIf>
+        <CGreater>
+          <CVariable val="A_balance" />
+          <CMinus>
+            <CVariable val="A_asked_withdrawal" />
+            <CNumber val="1" />
+          </CMinus>
+        </CGreater>
+        <CParallel>
+          <CParallel>
+            <CParallel>
+              <CAssignment>
+                <CVariable val="A_balance_after_operation" />
+                <CMinus>
+                  <CVariable val="A_balance" />
+                  <CVariable val="A_asked_withdrawal" />
+                </CMinus>
+              </CAssignment>
+              <CAssignment>
+                <CVariable val="DB_balance" />
+                <CMinus>
+                  <CVariable val="DB_balance" />
+                  <CVariable val="A_asked_withdrawal" />
+                </CMinus>
+              </CAssignment>
+            </CParallel>
+            <CAssignment>
+              <CVariable val="DB_asked_withdrawal" />
+              <CVariable val="A_asked_withdrawal" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="out" />
+              <CNumber val="15" />
+            </CAssignment>
+          </CParallel>
+          <CAssignment>
+            <CVariable val="DB_state" />
+            <CNumber val="47" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="ATM_state" />
+            <CNumber val="35" />
+          </CAssignment>
+        </CParallel>
+        <CParallel>
+          <CParallel>
+            <CAssignment>
+              <CVariable val="out" />
+              <CNumber val="16" />
+            </CAssignment>
+            <CAssignment>
+              <CVariable val="DB_error" />
+              <CNumber val="2" />
+            </CAssignment>
+          </CParallel>
+          <CAssignment>
+            <CVariable val="ATM_state" />
+            <CNumber val="36" />
+          </CAssignment>
+          <CAssignment>
+            <CVariable val="DB_state" />
+            <CNumber val="48" />
+          </CAssignment>
+        </CParallel>
+      </CIf>
+    </CGuardedEvent>
+    <CGuardedEvent name="DB_traitement_ok">
+      <CAnd>
+        <CEquals>
+          <CVariable val="DB_state" />
+          <CNumber val="47" />
+        </CEquals>
+        <CEquals>
+          <CVariable val="ATM_state" />
+          <CNumber val="35" />
+        </CEquals>
+      </CAnd>
+      <CParallel>
+        <CAssignment>
+          <CVariable val="out" />
+          <CNumber val="17" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="DB_state" />
+          <CNumber val="43" />
+        </CAssignment>
+        <CAssignment>
+          <CVariable val="ATM_state" />
+          <CNumber val="22" />
+        </CAssignment>
+      </CParallel>
+    </CGuardedEvent>
+  </EVENTS>
+</MACHINE>

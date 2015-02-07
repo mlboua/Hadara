@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE abstractionParameters SYSTEM "ParametersConfig.dtd">
+<abstractionParameters>
+    <z3binaryPath>/opt/z3/bin/z3</z3binaryPath>
+    <criterion>DC</criterion>
+    <abstractionPredicates>
+        <partitionPredicates>
+            <partitionPredicate>etat_commodo = fonctionnel</partitionPredicate>
+            <partitionPredicate>etat_commodo = defaillant</partitionPredicate>
+        </partitionPredicates>
+        <partitionPredicates>
+            <partitionPredicate>dmd_commodo_user = repos</partitionPredicate>
+            <partitionPredicate>dmd_commodo_user = interm</partitionPredicate>
+            <partitionPredicate>dmd_commodo_user = pv</partitionPredicate>
+            <partitionPredicate>dmd_commodo_user = gv</partitionPredicate>
+            <partitionPredicate>dmd_commodo_user = auto</partitionPredicate>
+        </partitionPredicates>
+        <partitionPredicates>
+            <partitionPredicate>dmd_commodo = d_repos</partitionPredicate>
+            <partitionPredicate>dmd_commodo = d_interm</partitionPredicate>
+            <partitionPredicate>dmd_commodo = d_pv</partitionPredicate>
+            <partitionPredicate>dmd_commodo = d_gv</partitionPredicate>
+            <partitionPredicate>dmd_commodo = d_auto</partitionPredicate>
+        </partitionPredicates>
+        <partitionPredicates>
+            <partitionPredicate>type_vitesse = ascendant</partitionPredicate>
+            <partitionPredicate>type_vitesse = descendant</partitionPredicate>
+        </partitionPredicates>
+    </abstractionPredicates>
+</abstractionParameters>
